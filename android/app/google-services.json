@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "331499987768",
+    "project_id": "notesapp-ed940",
+    "storage_bucket": "notesapp-ed940.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:331499987768:android:b35448765e1aa3ef5757cd",
+        "android_client_info": {
+          "package_name": "com.felpato.notesapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "331499987768-akgt6o6fgc2858npe0n2hevutt5gtpoc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9rCF5MEo204WbppAot29zq0oh6f1ioZw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "331499987768-akgt6o6fgc2858npe0n2hevutt5gtpoc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
