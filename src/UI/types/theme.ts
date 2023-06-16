@@ -19,4 +19,7 @@ export type CardSize = "small" | "medium" | "large";
 export type ModalVariant = "default";
 export type ModalSize = "small" | "medium" | "large" | "auto";
 
+export type AlertVariant = "default";
+export type AlertSize = "small" | "medium" | "large" | "auto";
+
 export type CalendarVariant = "default";

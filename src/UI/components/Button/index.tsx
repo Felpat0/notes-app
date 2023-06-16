@@ -8,13 +8,13 @@ import {
 import { buttonStyle } from "./style";
 import { ButtonState, ButtonVariant } from "../../types/theme";
 
-type Props = TouchableOpacityProps & {
+export type ButtonProps = TouchableOpacityProps & {
     width?: string | number;
     height?: string | number;
     variant?: ButtonVariant;
 };
 
-export const Button: React.FC<Props> = ({
+export const Button: React.FC<ButtonProps> = ({
     children,
     style,
     width,

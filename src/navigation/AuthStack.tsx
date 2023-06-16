@@ -19,7 +19,10 @@ export const AuthStack = (
             options={constants.defaultStackScreenOptions}
         >
             {(props) => (
-                <ScrollView style={styles.screenContainer}>
+                <ScrollView
+                    style={styles.screenContainer}
+                    keyboardShouldPersistTaps={"handled"}
+                >
                     <LoginScreen {...props} />
                 </ScrollView>
             )}
@@ -29,7 +32,10 @@ export const AuthStack = (
             options={constants.defaultStackScreenOptions}
         >
             {(props) => (
-                <ScrollView style={styles.screenContainer}>
+                <ScrollView
+                    style={styles.screenContainer}
+                    keyboardShouldPersistTaps={"handled"}
+                >
                     <SignupScreen {...props} />
                 </ScrollView>
             )}

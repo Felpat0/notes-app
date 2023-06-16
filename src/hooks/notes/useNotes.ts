@@ -18,7 +18,8 @@ export const useNotes = () => {
         setError(null);
         try {
             return await asyncFunction();
-        } catch (error) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
             setError(error.message);
         } finally {
             setLoading(false);
@@ -41,7 +42,12 @@ export const useNotes = () => {
         return await handleAsyncOperation(() => updateNote(note));
     };
 
-    const deleteExistingNote = async (noteId: string) => {
+    const deleteExistingNote = async (
+        noteId: string,
+        options?: {
+            askForConfirmation?: boolean;
+        }
+    ) => {
         return await handleAsyncOperation(() => deleteNote(noteId));
     };
 
