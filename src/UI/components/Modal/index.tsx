@@ -3,13 +3,14 @@ import { Modal as RNModal, useWindowDimensions, View } from "react-native";
 import { ModalSize, ModalVariant } from "../../types/theme";
 import { getModalStyle } from "./style";
 import { useMemo } from "react";
-import { Text } from "../Text";
+import { Text, TextProps } from "../Text";
 
 export type ModalProps = RNModalProps & {
     title?: string;
     variant?: ModalVariant;
     size?: ModalSize;
     transparent?: boolean;
+    titleProps?: TextProps;
 };
 
 export const Modal: React.FC<ModalProps> = ({
@@ -17,6 +18,7 @@ export const Modal: React.FC<ModalProps> = ({
     variant,
     size,
     transparent = true,
+    titleProps,
     ...props
 }: ModalProps) => {
     const dimensions = useWindowDimensions();
@@ -29,9 +31,16 @@ export const Modal: React.FC<ModalProps> = ({
         <RNModal transparent={transparent} {...props}>
             <View style={stylesheet.container}>
                 <View style={stylesheet.content}>
-                    <Text variant={"subtitle"} colorVariant={"primary"}>
-                        {title}
-                    </Text>
+                    {title && (
+                        <Text
+                            variant={"subtitle"}
+                            colorVariant={"primary"}
+                            {...titleProps}
+                            style={[stylesheet.title, titleProps?.style]}
+                        >
+                            {title}
+                        </Text>
+                    )}
                     {props.children}
                 </View>
             </View>

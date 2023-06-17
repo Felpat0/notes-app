@@ -1,21 +1,24 @@
 import React, { useMemo } from "react";
-import { TouchableOpacity, View, useWindowDimensions } from "react-native";
-import { Modal, Text } from "..";
+import { View, useWindowDimensions } from "react-native";
+import { Button, Modal, Text } from "..";
 import { getAlertStyle } from "./style";
 import { ModalProps } from "../Modal";
-import { AlertVariant, AlertSize } from "../../types/theme";
+import { AlertVariant, AlertSize, ActionType } from "../../types/theme";
 
-export type AlertProps = ModalProps & {
+export type AlertProps = {
     message?: string;
-    onConfirm?: () => void;
+    title?: string;
+    actions?: ActionType[];
     onCancel?: () => void;
     variant?: AlertVariant;
     size?: AlertSize;
+    modalProps?: ModalProps;
 };
 
 export const Alert: React.FC<AlertProps> = ({
     message,
-    onConfirm,
+    title,
+    actions = [],
     onCancel,
     variant = "default",
     size = "auto",
@@ -26,11 +29,6 @@ export const Alert: React.FC<AlertProps> = ({
         () => getAlertStyle(dimensions.width, variant, size),
         [size]
     );
-    const handleConfirm = () => {
-        if (onConfirm) {
-            onConfirm();
-        }
-    };
 
     const handleCancel = () => {
         if (onCancel) {
@@ -39,24 +37,20 @@ export const Alert: React.FC<AlertProps> = ({
     };
 
     return (
-        <Modal {...props} onRequestClose={handleCancel}>
+        <Modal
+            title={title}
+            {...props.modalProps}
+            onRequestClose={handleCancel}
+            titleProps={{ style: stylesheet.title }}
+        >
             <View style={stylesheet.container}>
-                <View style={stylesheet.alert}>
-                    <Text style={stylesheet.message}>{message}</Text>
-                    <View style={stylesheet.buttons}>
-                        <TouchableOpacity
-                            style={stylesheet.button}
-                            onPress={handleCancel}
-                        >
-                            <Text style={stylesheet.buttonText}>Cancel</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={stylesheet.button}
-                            onPress={handleConfirm}
-                        >
-                            <Text style={stylesheet.buttonText}>Confirm</Text>
-                        </TouchableOpacity>
-                    </View>
+                <Text style={stylesheet.message}>{message}</Text>
+                <View style={stylesheet.buttons}>
+                    {actions.map((action, index) => (
+                        <Button key={index} {...action}>
+                            {action.label}
+                        </Button>
+                    ))}
                 </View>
             </View>
         </Modal>

@@ -8,33 +8,16 @@ export const getAlertStyle = (
 ) =>
     StyleSheet.create({
         container: {
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            gap: 18,
         },
-        alert: {
-            backgroundColor: "#fff",
-            borderRadius: 10,
-            padding: 20,
-            minWidth: 300,
-        },
+        title: { textAlign: "center" },
         message: {
             fontSize: 18,
-            marginBottom: 20,
+            textAlign: "center",
         },
         buttons: {
             flexDirection: "row",
             justifyContent: "flex-end",
-        },
-        button: {
-            marginLeft: 10,
-            padding: 10,
-            borderRadius: 5,
-            backgroundColor: "#007AFF",
-        },
-        buttonText: {
-            color: "#fff",
-            fontSize: 16,
+            marginRight: 10,
         },
     });

@@ -1,3 +1,8 @@
+import { ButtonProps } from "../components/Button";
+import { ModalProps } from "../components/Modal";
+
+export type ThemeType = "dark" | "light";
+
 export type TextVariant = "title" | "subtitle" | "paragraph";
 export type TextColorVariant = "primary" | "secondary";
 
@@ -23,3 +28,20 @@ export type AlertVariant = "default";
 export type AlertSize = "small" | "medium" | "large" | "auto";
 
 export type CalendarVariant = "default";
+
+export type AlertType = {
+    id: number;
+    title?: string;
+    message: string;
+    type: "success" | "error" | "warning" | "info";
+    isOpen?: boolean;
+    onClose?: () => void;
+    actions: ActionType[];
+    modalProps?: ModalProps;
+};
+
+export type AlertTypePayload = Omit<AlertType, "id">;
+
+export type ActionType = ButtonProps & {
+    label: string;
+};

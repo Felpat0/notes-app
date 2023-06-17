@@ -1,20 +1,24 @@
-import { Text as RNText, TextProps, useWindowDimensions } from "react-native";
+import {
+    Text as RNText,
+    TextProps as RNTextProps,
+    useWindowDimensions,
+} from "react-native";
 import { getTextStyle } from "./style";
 import { TextColorVariant, TextVariant } from "../../types/theme";
 import { useMemo } from "react";
 
-type Props = TextProps & {
+export type TextProps = RNTextProps & {
     variant?: TextVariant;
     colorVariant?: TextColorVariant;
 };
 
-export const Text: React.FC<Props> = ({
+export const Text: React.FC<TextProps> = ({
     children,
     style,
     variant,
     colorVariant,
     ...props
-}: Props) => {
+}: TextProps) => {
     const dimensions = useWindowDimensions();
 
     const stylesheet = useMemo(

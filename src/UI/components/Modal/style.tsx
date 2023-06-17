@@ -15,6 +15,7 @@ export const getModalStyle = (
             alignItems: "center",
             backgroundColor: "rgba(0,0,0,0.5)",
         },
+        title: { marginBottom: 10 },
         content: {
             borderRadius:
                 constants[getDeviceType(deviceWidth) as keyof typeof constants] // @ts-ignore
@@ -25,5 +26,4 @@ export const getModalStyle = (
             color: getModalColors(variant).color,
             padding: 10,
         },
-        title: {},
     });

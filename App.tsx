@@ -5,6 +5,7 @@ import { AuthStack } from "./src/navigation/AuthStack";
 import { AppStack } from "./src/navigation/AppStack";
 import { useCallback, useEffect, useState } from "react";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import { ThemeProvider } from "./src/UI/redux/providers/ThemeProvider";
 
 const App = () => {
     const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
@@ -24,15 +25,17 @@ const App = () => {
     }, []);
 
     return (
-        <View style={styles.container}>
-            {initializing ? (
-                <View></View>
-            ) : (
-                <NavigationContainer>
-                    {user ? AppStack : AuthStack}
-                </NavigationContainer>
-            )}
-        </View>
+        <ThemeProvider>
+            <View style={styles.container}>
+                {initializing ? (
+                    <View></View>
+                ) : (
+                    <NavigationContainer>
+                        {user ? AppStack : AuthStack}
+                    </NavigationContainer>
+                )}
+            </View>
+        </ThemeProvider>
     );
 };
 
