@@ -12,14 +12,14 @@ import { StyleSheet } from "react-native";
 import { colors } from "../../../UI/theme/colors";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-interface DropdownMenuProps {
+type DropdownMenuProps = {
     children?: React.ReactNode;
     options: DropdownOption[];
     onSelect?: (value: DropdownOption["value"]) => void;
     position?: "left" | "right";
-}
+};
 
-export const DropdownMenu = ({
+export const DropdownMenu: React.FC<DropdownMenuProps> = ({
     children = (
         <Ionicons
             name={"ellipsis-vertical-sharp"}

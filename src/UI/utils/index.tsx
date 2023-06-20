@@ -1,3 +1,4 @@
+import { openConfirmationAlert } from "../components/Alert/instantiators";
 import { constants } from "../config/constants";
 import { themeColors } from "../theme/colors";
 import { DeviceType } from "../types";
@@ -83,6 +84,46 @@ export const getCalendarTheme = (calendarVariant: CalendarVariant) => {
 };
 
 // Misc
+export const handleAsyncOperation = async <T,>(
+    asyncFunction: () => Promise<T>,
+    setLoading?: (loading: boolean) => void,
+    setError?: (error?: string) => void,
+    options?: {
+        confirmationMessage?: string;
+    }
+): Promise<T> => {
+    const executeFunction = async () => {
+        setLoading && setLoading(true);
+        setError && setError(undefined);
+        try {
+            const result = await asyncFunction();
+            setLoading && setLoading(false);
+            return result;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            setError && setError(error.message);
+            setLoading && setLoading(false);
+            throw error;
+        }
+    };
+
+    // If there is a confirmation message, show the confirmation alert and execute the function if the user confirms
+    if (options?.confirmationMessage) {
+        return new Promise((resolve, reject) => {
+            openConfirmationAlert(
+                {
+                    message: options.confirmationMessage || "",
+                },
+                () => {
+                    resolve(executeFunction());
+                },
+                () => reject("User cancelled the operation")
+            );
+        });
+    }
+    // Otherwise, execute the function
+    return executeFunction();
+};
 
 // Function that returns if the device type based on the screen width and the breakpoints
 export const getDeviceType = (width: number): DeviceType => {

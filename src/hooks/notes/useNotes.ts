@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { NoteCreationType, NoteType } from "../../types/notes";
 import {
     createNote,
@@ -7,49 +7,60 @@ import {
     getNoteById,
     getNotes,
 } from "../../firebase/notes";
+import { handleAsyncOperation } from "../../UI/utils";
 
 export const useNotes = () => {
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<string | undefined>(undefined);
 
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    const handleAsyncOperation = async (asyncFunction: Function) => {
-        setLoading(true);
-        setError(null);
-        try {
-            return await asyncFunction();
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (error: any) {
-            setError(error.message);
-        } finally {
-            setLoading(false);
-        }
-    };
+    const getSingleNote = useCallback(
+        async (noteId: string): Promise<NoteType | undefined> => {
+            return await handleAsyncOperation<NoteType | undefined>(
+                () => getNoteById(noteId),
+                setLoading,
+                setError
+            );
+        },
+        []
+    );
 
-    const getSingleNote = async (noteId: string): Promise<NoteType | null> => {
-        return await handleAsyncOperation(() => getNoteById(noteId));
-    };
+    const getAllNotes = useCallback(async (): Promise<NoteType[]> => {
+        return await handleAsyncOperation<NoteType[]>(() => getNotes());
+    }, []);
 
-    const getAllNotes = async (): Promise<NoteType[]> => {
-        return await handleAsyncOperation(() => getNotes());
-    };
+    const createNewNote = useCallback(
+        async (note: NoteCreationType): Promise<NoteType> => {
+            return await handleAsyncOperation<NoteType>(
+                () => createNote(note),
+                setLoading,
+                setError
+            );
+        },
+        []
+    );
 
-    const createNewNote = async (note: NoteCreationType): Promise<NoteType> => {
-        return await handleAsyncOperation(() => createNote(note));
-    };
+    const updateExistingNote = useCallback(
+        async (note: NoteType): Promise<NoteType> => {
+            return await handleAsyncOperation<NoteType>(
+                () => updateNote(note),
+                setLoading,
+                setError
+            );
+        },
+        []
+    );
 
-    const updateExistingNote = async (note: NoteType): Promise<NoteType> => {
-        return await handleAsyncOperation(() => updateNote(note));
-    };
-
-    const deleteExistingNote = async (
-        noteId: string,
-        options?: {
-            askForConfirmation?: boolean;
-        }
-    ) => {
-        return await handleAsyncOperation(() => deleteNote(noteId));
-    };
+    const deleteExistingNote = useCallback(async (noteId: string) => {
+        return await handleAsyncOperation(
+            () => deleteNote(noteId),
+            setLoading,
+            setError,
+            {
+                confirmationMessage:
+                    "Are you sure you want to delete this note?",
+            }
+        );
+    }, []);
 
     return {
         loading,

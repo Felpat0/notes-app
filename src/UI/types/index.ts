@@ -1,3 +1,5 @@
+export type DeviceType = "mobile" | "tablet" | "desktop";
+
 export type Measure = {
     x: number;
     y: number;

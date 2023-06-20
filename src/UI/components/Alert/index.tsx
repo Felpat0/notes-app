@@ -9,7 +9,7 @@ export type AlertProps = {
     message?: string;
     title?: string;
     actions?: ActionType[];
-    onCancel?: () => void;
+    onClose?: () => void;
     variant?: AlertVariant;
     size?: AlertSize;
     modalProps?: ModalProps;
@@ -19,7 +19,7 @@ export const Alert: React.FC<AlertProps> = ({
     message,
     title,
     actions = [],
-    onCancel,
+    onClose,
     variant = "default",
     size = "auto",
     ...props
@@ -30,9 +30,9 @@ export const Alert: React.FC<AlertProps> = ({
         [size]
     );
 
-    const handleCancel = () => {
-        if (onCancel) {
-            onCancel();
+    const handleClose = () => {
+        if (onClose) {
+            onClose();
         }
     };
 
@@ -40,7 +40,7 @@ export const Alert: React.FC<AlertProps> = ({
         <Modal
             title={title}
             {...props.modalProps}
-            onRequestClose={handleCancel}
+            onRequestClose={handleClose}
             titleProps={{ style: stylesheet.title }}
         >
             <View style={stylesheet.container}>

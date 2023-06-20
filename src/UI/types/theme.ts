@@ -33,10 +33,10 @@ export type AlertType = {
     id: number;
     title?: string;
     message: string;
-    type: "success" | "error" | "warning" | "info";
+    type?: "success" | "error" | "warning" | "info";
     isOpen?: boolean;
     onClose?: () => void;
-    actions: ActionType[];
+    actions?: ActionType[];
     modalProps?: ModalProps;
 };
 

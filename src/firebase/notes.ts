@@ -54,9 +54,7 @@ export const getNoteById = async (
         }
     });
 
-export const createNote = async (
-    note: NoteCreationType
-): Promise<NoteType | undefined> =>
+export const createNote = async (note: NoteCreationType): Promise<NoteType> =>
     performNoteAction(async () => {
         const currentUser = getCurrentUser();
         const newNoteData = {
@@ -73,9 +71,7 @@ export const createNote = async (
         return getNoteById(newNoteRef.id);
     });
 
-export const updateNote = async (
-    note: NoteType
-): Promise<NoteType | undefined> =>
+export const updateNote = async (note: NoteType): Promise<NoteType> =>
     performNoteAction(async () => {
         const currentUser = getCurrentUser();
         const newNoteData = {
