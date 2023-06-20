@@ -55,4 +55,24 @@ export const Alert: React.FC<AlertProps> = ({
             </View>
         </Modal>
     );
+
+    /* return (
+        <Modal
+            title={title}
+            {...props.modalProps}
+            onRequestClose={handleClose}
+            titleProps={{ style: stylesheet.title }}
+        >
+            <View style={stylesheet.container}>
+                <Text style={stylesheet.message}>{message}</Text>
+                <View style={stylesheet.buttons}>
+                    {actions.map((action, index) => (
+                        <Button key={index} {...action}>
+                            {action.label}
+                        </Button>
+                    ))}
+                </View>
+            </View>
+        </Modal>
+    ); */
 };

@@ -1,5 +1,5 @@
 import { Alert } from "./Alert";
-import { openAlert, closeAlert } from "./Alert/instantiators";
+import { openAlert, openConfirmationAlert } from "./Alert/instantiators";
 import { Button } from "./Button";
 import { Calendar } from "./Calendar";
 import { Card } from "./Card";
@@ -25,5 +25,5 @@ export {
     Text,
     // Instantiators
     openAlert,
-    closeAlert,
+    openConfirmationAlert,
 };

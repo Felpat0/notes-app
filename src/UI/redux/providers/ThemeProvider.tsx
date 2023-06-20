@@ -1,39 +1,20 @@
-import { Provider } from "react-redux";
-import { store } from "../store";
-import { Alert } from "../../components/Alert";
-import { themeSlice } from "../slices/themeSlice";
-import { useEffect } from "react";
+import React from "react";
+import {
+    ThemeContext,
+    initialState,
+    themeReducer,
+} from "../reducers/themeReducer";
 
 type Props = {
     children?: React.ReactNode;
 };
 
 export const ThemeProvider: React.FC<Props> = ({ children }: Props) => {
-    useEffect(() => {
-        store.dispatch(
-            themeSlice.actions.addAlert({
-                title: "Alert",
-                message: "Ciao sono proprio un alert!",
-                type: "error",
-                actions: [
-                    {
-                        label: "Confirm",
-                    },
-                ],
-            })
-        );
-    }, []);
+    const [theme, dispatch] = React.useReducer(themeReducer, initialState);
 
     return (
-        <Provider store={store}>
+        <ThemeContext.Provider value={{ state: theme, dispatch }}>
             {children}
-            {store.getState().theme.alerts.map((alert) => (
-                <Alert
-                    key={alert.id}
-                    {...alert}
-                    modalProps={{ ...alert.modalProps }}
-                />
-            ))}
-        </Provider>
+        </ThemeContext.Provider>
     );
 };
