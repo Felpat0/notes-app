@@ -90,7 +90,10 @@ export const handleAsyncOperation = async <T,>(
     setLoading?: (loading: boolean) => void,
     setError?: (error?: string) => void,
     options?: {
-        confirmationMessage?: string;
+        confirmation?: {
+            title?: string;
+            message?: string;
+        };
     }
 ): Promise<T> => {
     const executeFunction = async () => {
@@ -109,7 +112,7 @@ export const handleAsyncOperation = async <T,>(
     };
 
     // If there is a confirmation message, show the confirmation alert and execute the function if the user confirms
-    if (options?.confirmationMessage) {
+    if (options?.confirmation) {
         return new Promise((resolve, reject) => {
             openConfirmationAlert(
                 {},

@@ -153,7 +153,7 @@ export const themeColors = {
             todayTextColor: colors.purple2,
             dayTextColor: colors.white1,
             textDisabledColor: colors.purple3,
-            textDayFontWeight: "600" as "600",
+            textDayFontWeight: "600",
             dotColor: colors.skyblue1,
         },
     },

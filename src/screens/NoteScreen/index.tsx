@@ -9,13 +9,17 @@ import { NoteType } from "../../types/notes";
 import { useDebounce } from "../../UI/hooks/useDebounce";
 import { constants } from "../../config/constants";
 import { useNotes } from "../../hooks/notes/useNotes";
+import { useTranslation } from "react-i18next";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Note">;
 
 export const NoteScreen: React.FC<Props> = ({ route }: Props) => {
+    const { t } = useTranslation();
     const [note, setNote] = useState<NoteType | undefined>();
     const [currentNote, setCurrentNote] = useState<NoteType | undefined>();
-    const { getSingleNote, updateExistingNote } = useNotes();
+    const { getSingleNote, updateExistingNote, deleteExistingNote } =
+        useNotes();
+
     const debouncedNote = useDebounce(
         currentNote,
         constants.notesDebounceDelay
@@ -53,6 +57,20 @@ export const NoteScreen: React.FC<Props> = ({ route }: Props) => {
         });
     }, []);
 
+    const handleDropdownItemClick = useCallback(
+        (value: string) => {
+            if (!note) return;
+            switch (value) {
+                case "delete":
+                    deleteExistingNote(note.id);
+                    break;
+                default:
+                    break;
+            }
+        },
+        [deleteExistingNote, note]
+    );
+
     if (!currentNote) return <View></View>;
 
     return (
@@ -68,10 +86,11 @@ export const NoteScreen: React.FC<Props> = ({ route }: Props) => {
                 <DropdownMenu
                     options={[
                         {
-                            label: "Save",
-                            value: "save",
+                            label: t("buttons.delete"),
+                            value: "delete",
                         },
                     ]}
+                    onSelect={handleDropdownItemClick}
                 />
             </View>
             <RichEditor

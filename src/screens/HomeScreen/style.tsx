@@ -9,7 +9,7 @@ export const homeScreenStyles = StyleSheet.create({
         width: "100%",
         height: "100%",
         backgroundColor: themeColors.background.primary,
-        paddingVertical: 10,
-        paddingHorizontal: 5,
+        paddingVertical: 15,
+        paddingHorizontal: 20,
     },
 });

@@ -8,6 +8,7 @@ import {
     getNotes,
 } from "../../firebase/notes";
 import { handleAsyncOperation } from "../../UI/utils";
+import i18n from "../../localization/i18n";
 
 export const useNotes = () => {
     const [loading, setLoading] = useState(false);
@@ -56,8 +57,10 @@ export const useNotes = () => {
             setLoading,
             setError,
             {
-                confirmationMessage:
-                    "Are you sure you want to delete this note?",
+                confirmation: {
+                    title: i18n.t("alerts.deleteNote.title"),
+                    message: i18n.t("alerts.deleteNote.message"),
+                },
             }
         );
     }, []);
