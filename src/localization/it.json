@@ -1,0 +1,49 @@
+{
+    "header": {
+        "title": "Note"
+    },
+    "home": {
+        "greeting": "Ciao,",
+        "pinnedNotes": "Note in evidenza",
+        "notes": "Note"
+    },
+    "buttons": {
+        "ok": "Ok",
+        "cancel": "Annulla",
+        "done": "Fatto",
+        "retry": "Riprova",
+        "save": "Salva",
+        "delete": "Elimina",
+        "confirm": "Conferma",
+        "close": "Chiudi"
+    },
+    "inputs": {
+        "labels": {
+
+        },
+        "placeholders": {
+            "searchNotes": "Cerca note"
+        }
+    },
+    "alerts": {
+        "deleteNote": {
+            "title": "Elimina nota",
+            "message": "Sei sicuro di voler eliminare questa nota?"
+        }
+    },
+    "ui": {
+        "buttons": {
+            "ok": "Ok",
+            "cancel": "Annulla",
+            "done": "Fatto",
+            "retry": "Riprova",
+            "save": "Salva",
+            "delete": "Elimina",
+            "confirm": "Conferma",
+            "close": "Chiudi"
+        },
+        "alerts": {
+            "confirmOperation": "Sei sicuro di voler eseguire questa operazione?"
+        }
+    }
+}

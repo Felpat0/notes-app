@@ -1,0 +1,49 @@
+{
+    "header": {
+        "title": "Notes"
+    },
+    "home": {
+        "greeting": "Hey,",
+        "pinnedNotes": "Pinned Notes",
+        "notes": "Notes",
+        "projects": "Projects"
+    },
+    "buttons": {
+        "ok": "Ok",
+        "cancel": "Cancel",
+        "done": "Done",
+        "retry": "Retry",
+        "save": "Save",
+        "delete": "Delete",
+        "confirm": "Confirm",
+        "close": "Close"
+    },
+    "inputs": {
+        "labels": {
+        },
+        "placeholders": {
+            "searchNotes": "Search notes"
+        }
+    },
+    "alerts": {
+        "deleteNote": {
+            "title": "Delete Note",
+            "message": "Are you sure you want to delete this note?"
+        }
+    },
+    "ui": {
+        "buttons": {
+            "ok": "Ok",
+            "cancel": "Cancel",
+            "done": "Done",
+            "retry": "Retry",
+            "save": "Save",
+            "delete": "Delete",
+            "confirm": "Confirm",
+            "close": "Close"
+        },
+        "alerts": {
+            "confirmOperation": "Are you sure you want to perform this operation?"
+        }
+    }
+}

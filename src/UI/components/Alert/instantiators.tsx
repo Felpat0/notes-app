@@ -1,8 +1,9 @@
 import { Alert, AlertButton } from "react-native";
 import { AlertOptions } from "../../types";
+import i18n from "../../../localization/i18n";
 
 export const openAlert = (
-    title: string,
+    title = "",
     message?: string,
     buttons?: AlertButton[],
     options?: AlertOptions
@@ -13,18 +14,20 @@ export const openAlert = (
 export const openConfirmationAlert = (
     options: AlertOptions,
     onConfirm: () => void,
-    onCancel: () => void
+    onCancel: () => void,
+    title = "",
+    message?: string
 ) => {
     Alert.alert(
-        "ao",
-        "Sei sicuro?",
+        title,
+        message || i18n.t("ui.alerts.confirmOperation"),
         [
             {
-                text: "Si",
+                text: i18n.t("ui.buttons.confirm"),
                 onPress: onConfirm,
             },
             {
-                text: "No",
+                text: i18n.t("ui.buttons.cancel"),
                 onPress: onCancel,
             },
         ],

@@ -1,3 +1,4 @@
+import i18n from "../../localization/i18n";
 import { openConfirmationAlert } from "../components/Alert/instantiators";
 import { constants } from "../config/constants";
 import { themeColors } from "../theme/colors";
@@ -111,13 +112,13 @@ export const handleAsyncOperation = async <T,>(
     if (options?.confirmationMessage) {
         return new Promise((resolve, reject) => {
             openConfirmationAlert(
-                {
-                    message: options.confirmationMessage || "",
-                },
+                {},
                 () => {
                     resolve(executeFunction());
                 },
-                () => reject("User cancelled the operation")
+                () => reject("User cancelled the operation"),
+                i18n.t("alerts.deleteNote.title"),
+                i18n.t("alerts.deleteNote.message")
             );
         });
     }
