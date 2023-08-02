@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View, ViewStyle } from "react-native";
 import { Text } from "../../../UI/components";
 import { homeSectionStyles } from "./style";
 
@@ -8,6 +8,7 @@ type HomeSectionProps = {
     icon?: React.ReactNode;
     onIconPress?: () => void;
     children?: React.ReactNode;
+    containerStyle?: ViewStyle;
 };
 
 export const HomeSection: React.FC<HomeSectionProps> = ({
@@ -15,6 +16,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
     icon,
     onIconPress,
     children,
+    containerStyle,
 }) => {
     return (
         <View style={homeSectionStyles.container}>
@@ -28,7 +30,9 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
                     </TouchableOpacity>
                 )}
             </View>
-            <View style={homeSectionStyles.children}>{children}</View>
+            <View style={[homeSectionStyles.children, containerStyle]}>
+                {children}
+            </View>
         </View>
     );
 };

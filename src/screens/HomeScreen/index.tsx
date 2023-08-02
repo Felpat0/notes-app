@@ -17,7 +17,7 @@ type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
 export const HomeScreen: React.FC<Props> = ({ navigation }: Props) => {
     const { t } = useTranslation();
-    const { getAllNotes, deleteExistingNote } = useNotes();
+    const { getAllNotes, createNewNote, deleteExistingNote } = useNotes();
     const [notes, setNotes] = useState<NoteType[]>([]);
 
     const retrieveNotes = useCallback(async () => {
@@ -30,8 +30,12 @@ export const HomeScreen: React.FC<Props> = ({ navigation }: Props) => {
         retrieveNotes();
     }, []);
 
-    const handleNewNoteIconPress = useCallback(() => {
-        navigation.navigate("Note", {});
+    const handleNewNoteIconPress = useCallback(async () => {
+        const newNote = await createNewNote();
+        if (newNote)
+            navigation.navigate("Note", {
+                noteId: newNote.id,
+            });
     }, [navigation]);
 
     const handleNoteClick = useCallback(
@@ -59,6 +63,9 @@ export const HomeScreen: React.FC<Props> = ({ navigation }: Props) => {
                     <AntDesign name={"plus"} color={colors.white1} size={27} />
                 }
                 onIconPress={handleNewNoteIconPress}
+                containerStyle={{
+                    gap: 10,
+                }}
             >
                 {notes.map((note) => (
                     <NoteListElement

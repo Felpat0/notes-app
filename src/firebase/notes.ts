@@ -3,6 +3,13 @@ import { NoteCreationType, NoteType } from "../types/notes";
 import { firestoreNoteToNote } from "../utils/conversions";
 import { getCurrentUser } from "./auth";
 
+export const noteRef = (noteId: string) =>
+    firestore().collection("notes").doc(noteId);
+
+export const notesRef = firestore()
+    .collection("notes")
+    .where("userId", "==", getCurrentUser()?.uid);
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 export const performNoteAction = async (action: Function) => {
     try {
@@ -18,13 +25,9 @@ export const performNoteAction = async (action: Function) => {
 
 export const getNotes = async (): Promise<NoteType[]> =>
     performNoteAction(async () => {
-        const currentUser = getCurrentUser();
         const toReturn: NoteType[] = [];
 
-        const querySnapshot = await firestore()
-            .collection("notes")
-            .where("userId", "==", currentUser?.uid)
-            .get();
+        const querySnapshot = await notesRef.get();
 
         querySnapshot.forEach((doc) => {
             toReturn.push(
@@ -42,10 +45,8 @@ export const getNoteById = async (
     noteId: string
 ): Promise<NoteType | undefined> =>
     performNoteAction(async () => {
-        const noteSnapshot = await firestore()
-            .collection("notes")
-            .doc(noteId)
-            .get();
+        const noteSnapshot = await noteRef(noteId).get();
+
         if (noteSnapshot.exists) {
             return firestoreNoteToNote({
                 ...noteSnapshot.data(),
@@ -54,12 +55,14 @@ export const getNoteById = async (
         }
     });
 
-export const createNote = async (note: NoteCreationType): Promise<NoteType> =>
+export const createNote = async (note?: NoteCreationType): Promise<NoteType> =>
     performNoteAction(async () => {
         const currentUser = getCurrentUser();
         const newNoteData = {
             ...note,
             userId: currentUser?.uid,
+            title: note?.title || "",
+            content: note?.content || "",
             createdAt: firestore.Timestamp.now(),
             updatedAt: firestore.Timestamp.now(),
         };
@@ -79,12 +82,12 @@ export const updateNote = async (note: NoteType): Promise<NoteType> =>
             userId: currentUser?.uid,
             updatedAt: firestore.Timestamp.now(),
         };
-        await firestore().collection("notes").doc(note.id).update(newNoteData);
+        await noteRef(newNoteData.id).update(newNoteData);
 
         return getNoteById(newNoteData.id);
     });
 
 export const deleteNote = async (noteId: string): Promise<void> =>
     performNoteAction(async () => {
-        await firestore().collection("notes").doc(noteId).delete();
+        await noteRef(noteId).delete();
     });

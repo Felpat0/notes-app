@@ -8,6 +8,6 @@ export type NoteType = {
 };
 
 export type NoteCreationType = {
-    title: string;
-    content: string;
+    title?: string;
+    content?: string;
 };

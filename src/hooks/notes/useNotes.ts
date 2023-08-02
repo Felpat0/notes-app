@@ -30,7 +30,7 @@ export const useNotes = () => {
     }, []);
 
     const createNewNote = useCallback(
-        async (note: NoteCreationType): Promise<NoteType> => {
+        async (note?: NoteCreationType): Promise<NoteType> => {
             return await handleAsyncOperation<NoteType>(
                 () => createNote(note),
                 setLoading,
