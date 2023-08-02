@@ -45,5 +45,21 @@
         "alerts": {
             "confirmOperation": "Are you sure you want to perform this operation?"
         }
+    },
+    "successes": {
+        "general": {
+            "title": "Success",
+            "message": "Operation completed successfully"
+        }
+    },
+    "errors": {
+        "general": {
+            "title": "Error",
+            "message": "An error has occurred"
+        },
+        "notes": {
+            "title": "Error",
+            "message": "An error has occurred while loading or changing notes"
+        }
     }
 }

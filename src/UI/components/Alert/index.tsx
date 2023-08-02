@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { View, useWindowDimensions } from "react-native";
 import { Button, Modal, Text } from "..";
 import { getAlertStyle } from "./style";
@@ -30,11 +30,21 @@ export const Alert: React.FC<AlertProps> = ({
         [size]
     );
 
-    const handleClose = () => {
-        if (onClose) {
-            onClose();
+    const computedActions = useMemo(() => {
+        if (actions.length === 0) {
+            return [
+                {
+                    label: "Close",
+                    onPress: onClose,
+                },
+            ];
         }
-    };
+        return actions;
+    }, [actions, onClose]);
+
+    const handleClose = useCallback(() => {
+        onClose && onClose();
+    }, [onClose]);
 
     return (
         <Modal
@@ -46,7 +56,7 @@ export const Alert: React.FC<AlertProps> = ({
             <View style={stylesheet.container}>
                 <Text style={stylesheet.message}>{message}</Text>
                 <View style={stylesheet.buttons}>
-                    {actions.map((action, index) => (
+                    {computedActions.map((action, index) => (
                         <Button key={index} {...action}>
                             {action.label}
                         </Button>

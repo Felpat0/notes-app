@@ -19,14 +19,30 @@ export const useNotes = () => {
             return await handleAsyncOperation<NoteType | undefined>(
                 () => getNoteById(noteId),
                 setLoading,
-                setError
+                setError,
+                {
+                    error: {
+                        title: i18n.t("errors.notes.title"),
+                        message: i18n.t("errors.notes.message"),
+                    },
+                }
             );
         },
         []
     );
 
     const getAllNotes = useCallback(async (): Promise<NoteType[]> => {
-        return await handleAsyncOperation<NoteType[]>(() => getNotes());
+        return await handleAsyncOperation<NoteType[]>(
+            getNotes,
+            setLoading,
+            setError,
+            {
+                error: {
+                    title: i18n.t("errors.notes.title"),
+                    message: i18n.t("errors.notes.message"),
+                },
+            }
+        );
     }, []);
 
     const createNewNote = useCallback(
@@ -34,7 +50,17 @@ export const useNotes = () => {
             return await handleAsyncOperation<NoteType>(
                 () => createNote(note),
                 setLoading,
-                setError
+                setError,
+                {
+                    error: {
+                        title: i18n.t("errors.notes.title"),
+                        message: i18n.t("errors.notes.message"),
+                    },
+                    success: {
+                        title: i18n.t("successes.general.title"),
+                        message: i18n.t("successes.general.message"),
+                    },
+                }
             );
         },
         []
@@ -45,7 +71,13 @@ export const useNotes = () => {
             return await handleAsyncOperation<NoteType>(
                 () => updateNote(note),
                 setLoading,
-                setError
+                setError,
+                {
+                    error: {
+                        title: i18n.t("errors.notes.title"),
+                        message: i18n.t("errors.notes.message"),
+                    },
+                }
             );
         },
         []
@@ -60,6 +92,14 @@ export const useNotes = () => {
                 confirmation: {
                     title: i18n.t("alerts.deleteNote.title"),
                     message: i18n.t("alerts.deleteNote.message"),
+                },
+                error: {
+                    title: i18n.t("errors.notes.title"),
+                    message: i18n.t("errors.notes.message"),
+                },
+                success: {
+                    title: i18n.t("successes.general.title"),
+                    message: i18n.t("successes.general.message"),
                 },
             }
         );

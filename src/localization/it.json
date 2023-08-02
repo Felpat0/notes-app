@@ -45,5 +45,21 @@
         "alerts": {
             "confirmOperation": "Sei sicuro di voler eseguire questa operazione?"
         }
+    },
+    "successes": {
+        "general": {
+            "title": "Successo",
+            "message": "Operazione eseguita con successo"
+        }
+    },
+    "errors": {
+        "general": {
+            "title": "Errore",
+            "message": "Si è verificato un errore"
+        },
+        "notes": {
+            "title": "Errore",
+            "message": "Si è verificato un errore durante il caricamento o la modifica delle note"
+        }
     }
 }

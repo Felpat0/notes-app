@@ -22,7 +22,7 @@ export const HomeScreen: React.FC<Props> = ({ navigation }: Props) => {
 
     const retrieveNotes = useCallback(async () => {
         const retrievedNotes = await getAllNotes();
-        setNotes(retrievedNotes);
+        if (retrievedNotes) setNotes(retrievedNotes);
     }, []);
 
     useEffect(() => {

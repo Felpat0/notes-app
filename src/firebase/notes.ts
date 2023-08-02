@@ -12,15 +12,10 @@ export const notesRef = firestore()
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export const performNoteAction = async (action: Function) => {
-    try {
-        const currentUser = getCurrentUser();
-        if (!currentUser) throw new Error("User not logged in");
+    const currentUser = getCurrentUser();
+    if (!currentUser) throw new Error("User not logged in");
 
-        return await action();
-    } catch (error) {
-        console.log("Error in performNoteAction: ", error);
-    }
-    return undefined;
+    return await action();
 };
 
 export const getNotes = async (): Promise<NoteType[]> =>
