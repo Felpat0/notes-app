@@ -4,7 +4,6 @@ import { homeScreenStyles } from "./style";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/AppStack";
-import { NoteType } from "../../types/notes";
 import { useNotes } from "../../hooks/notes/useNotes";
 import { Greeting } from "../../components/Home/Greeting";
 import { getCurrentUser } from "../../firebase/auth";
@@ -14,28 +13,37 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import { colors } from "../../UI/theme/colors";
 import { isNotePinned } from "../../utils/notes";
 import { Card } from "../../UI/components";
+import { useAppSelector } from "../../redux/store";
+import { notesRef } from "../../firebase/notes";
+import { useDispatch } from "react-redux";
+import { setNotes } from "../../redux/slices/notesSlice";
+import { firestoreNoteToNote } from "../../utils/conversions";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
 export const HomeScreen: React.FC<Props> = ({ navigation }: Props) => {
     const { t } = useTranslation();
-    const { getAllNotes, createNewNote, deleteExistingNote } = useNotes();
-    const [notes, setNotes] = useState<NoteType[]>([]);
-    const [currentDate, setCurrentDate] = useState<Date>(new Date());
+    const dispatch = useDispatch();
+    const { notes } = useAppSelector((state) => state.notes);
+    const { createNewNote, deleteExistingNote } = useNotes();
+    //const [notes, setNotes] = useState<NoteType[]>([]);
+    const [currentDate] = useState<Date>(new Date());
 
     const pinnedNotes = useMemo(() => {
         return notes.filter((note) => isNotePinned(note, currentDate));
     }, [notes, currentDate]);
 
-    const retrieveNotes = useCallback(async () => {
-        const retrievedNotes = await getAllNotes();
-        if (retrievedNotes) setNotes(retrievedNotes);
-    }, []);
-
     useEffect(() => {
-        // Get the notes from the backend
-        retrieveNotes();
-    }, []);
+        notesRef.onSnapshot((snapshot) => {
+            dispatch(
+                setNotes({
+                    notes: snapshot.docs.map((doc) =>
+                        firestoreNoteToNote(doc.data())
+                    ),
+                })
+            );
+        });
+    }, [dispatch]);
 
     const handleNewNoteIconPress = useCallback(async () => {
         const newNote = await createNewNote();
@@ -55,7 +63,6 @@ export const HomeScreen: React.FC<Props> = ({ navigation }: Props) => {
     const handleNoteDelete = useCallback(async (noteId: string) => {
         try {
             await deleteExistingNote(noteId);
-            retrieveNotes();
         } catch (e) {
             console.log(e);
         }
@@ -92,8 +99,7 @@ export const HomeScreen: React.FC<Props> = ({ navigation }: Props) => {
                 {notes.map((note) => (
                     <NoteListElement
                         key={note.id}
-                        id={note.id}
-                        title={note.title}
+                        note={note}
                         onClick={handleNoteClick}
                         onDelete={handleNoteDelete}
                     />
