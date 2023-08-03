@@ -4,6 +4,7 @@ import { NoteType } from "../types/notes";
 export const firestoreNoteToNote = (note: any): NoteType => {
     return {
         ...note,
+        recurrences: note.recurrences || [],
         createdAt: note.createdAt.toDate(),
         updatedAt: note.updatedAt.toDate(),
     };

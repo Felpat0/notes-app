@@ -1,7 +1,7 @@
 import { ScrollView } from "react-native";
 import { NoteListElement } from "../../components/Home/NoteListElement";
 import { homeScreenStyles } from "./style";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/AppStack";
 import { NoteType } from "../../types/notes";
@@ -12,6 +12,8 @@ import { HomeSection } from "../../components/Home/HomeSection";
 import { useTranslation } from "react-i18next";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { colors } from "../../UI/theme/colors";
+import { isNotePinned } from "../../utils/notes";
+import { Card } from "../../UI/components";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
@@ -19,6 +21,11 @@ export const HomeScreen: React.FC<Props> = ({ navigation }: Props) => {
     const { t } = useTranslation();
     const { getAllNotes, createNewNote, deleteExistingNote } = useNotes();
     const [notes, setNotes] = useState<NoteType[]>([]);
+    const [currentDate, setCurrentDate] = useState<Date>(new Date());
+
+    const pinnedNotes = useMemo(() => {
+        return notes.filter((note) => isNotePinned(note, currentDate));
+    }, [notes, currentDate]);
 
     const retrieveNotes = useCallback(async () => {
         const retrievedNotes = await getAllNotes();
@@ -57,6 +64,21 @@ export const HomeScreen: React.FC<Props> = ({ navigation }: Props) => {
     return (
         <ScrollView contentContainerStyle={homeScreenStyles.container}>
             <Greeting name={getCurrentUser()?.displayName || ""} />
+            <HomeSection title={t("home.pinnedNotes")}>
+                <ScrollView
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{ gap: 10 }}
+                >
+                    {pinnedNotes.map((note) => (
+                        <Card
+                            key={note.id}
+                            title={note.title}
+                            onPress={() => handleNoteClick(note.id)}
+                        />
+                    ))}
+                </ScrollView>
+            </HomeSection>
             <HomeSection
                 title={t("home.notes")}
                 icon={

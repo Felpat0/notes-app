@@ -4,10 +4,21 @@ export type NoteType = {
     content: string;
     createdAt: Date;
     updatedAt: Date;
+    pinned?: boolean;
+    recurrences: NoteRecurrenceType[];
     userId?: string;
 };
 
 export type NoteCreationType = {
     title?: string;
     content?: string;
+};
+
+export type NoteRecurrenceType = {
+    type: "punctual" | "daily" | "weekly" | "monthly" | "yearly" | "interval";
+    startDate: Date;
+    endDate?: Date;
+    days?: number[]; // 0-6
+    months?: number[]; // 0-11
+    years?: number[];
 };
