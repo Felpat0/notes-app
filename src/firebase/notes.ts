@@ -65,6 +65,7 @@ export const createNote = async (note?: NoteCreationType): Promise<NoteType> =>
         const newNoteRef = await firestore()
             .collection("notes")
             .add(newNoteData);
+        await newNoteRef.update({ id: newNoteRef.id });
 
         return getNoteById(newNoteRef.id);
     });
