@@ -1,4 +1,10 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, {
+    useCallback,
+    useLayoutEffect,
+    useMemo,
+    useRef,
+    useState,
+} from "react";
 import {
     Modal,
     Text,
@@ -49,18 +55,17 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
         [onSelect]
     );
 
+    useLayoutEffect(() => {
+        triggerRef.current?.measure((x, y, width, height, pageX, pageY) => {
+            setMeasure({ x, y, width, height, pageX, pageY });
+        });
+    }, [showOptions]);
+
     return (
         <View>
             <TouchableOpacity
                 ref={triggerRef}
                 onPress={() => setShowOptions(!showOptions)}
-                onLayout={() => {
-                    triggerRef.current?.measure(
-                        (x, y, width, height, pageX, pageY) => {
-                            setMeasure({ x, y, width, height, pageX, pageY });
-                        }
-                    );
-                }}
             >
                 {children}
             </TouchableOpacity>

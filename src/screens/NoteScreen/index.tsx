@@ -41,6 +41,29 @@ export const NoteScreen: React.FC<Props> = ({ route }: Props) => {
         }
     }, [debouncedNote]);
 
+    const dropdownOptions = useMemo(() => {
+        let options = [];
+        if (!note?.pinned) {
+            options.push({
+                label: t("dropdownMenus.notes.pin"),
+                value: "pin",
+            });
+        } else {
+            options.push({
+                label: t("dropdownMenus.notes.unpin"),
+                value: "unpin",
+            });
+        }
+        options = [
+            ...options,
+            {
+                label: t("dropdownMenus.notes.delete"),
+                value: "delete",
+            },
+        ];
+        return options;
+    }, [note]);
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const onChange = useCallback((newValue: any, field: keyof NoteType) => {
         setCurrentNote((currentNote) => {
@@ -58,6 +81,18 @@ export const NoteScreen: React.FC<Props> = ({ route }: Props) => {
             switch (value) {
                 case "delete":
                     deleteExistingNote(note.id);
+                    break;
+                case "pin":
+                    updateExistingNote({
+                        ...note,
+                        pinned: true,
+                    });
+                    break;
+                case "unpin":
+                    updateExistingNote({
+                        ...note,
+                        pinned: false,
+                    });
                     break;
                 default:
                     break;
@@ -79,12 +114,7 @@ export const NoteScreen: React.FC<Props> = ({ route }: Props) => {
                     style={noteScreenStyles.titleInput}
                 />
                 <DropdownMenu
-                    options={[
-                        {
-                            label: t("buttons.delete"),
-                            value: "delete",
-                        },
-                    ]}
+                    options={dropdownOptions}
                     onSelect={handleDropdownItemClick}
                 />
             </View>
