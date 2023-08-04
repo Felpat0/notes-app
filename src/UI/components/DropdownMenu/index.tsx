@@ -54,14 +54,27 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
     const dimensions = useWindowDimensions();
     const triggerRef = useRef<TouchableOpacity | null>(null);
 
+    const updatedPosition: "left" | "right" = useMemo(() => {
+        if (coordinates) {
+            return coordinates.x > dimensions.width / 2 ? "left" : "right";
+        }
+        return position;
+    }, [coordinates]);
+
     const styles = useMemo(() => {
         const newMeasure = measure;
         if (coordinates && newMeasure) {
             newMeasure.pageX = coordinates.x;
             newMeasure.pageY = coordinates.y;
+            newMeasure.width = 0;
+            newMeasure.height = 0;
         }
-        return getDropdownMenuStyles(position, dimensions.width, newMeasure);
-    }, [position, dimensions, measure, coordinates]);
+        return getDropdownMenuStyles(
+            updatedPosition,
+            dimensions.width,
+            newMeasure
+        );
+    }, [dimensions, measure, coordinates, updatedPosition]);
 
     useEffect(() => {
         if (forceOptionsOpen !== undefined) {
