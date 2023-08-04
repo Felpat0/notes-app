@@ -46,6 +46,13 @@
             "confirmOperation": "Sei sicuro di voler eseguire questa operazione?"
         }
     },
+    "dropdownMenus": {
+        "notes": {
+            "pin": "Metti in evidenza",
+            "unpin": "Rimuovi dall'evidenza",
+            "delete": "Elimina"
+        }
+    },
     "successes": {
         "general": {
             "title": "Successo",

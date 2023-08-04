@@ -4,6 +4,7 @@ import { noteListElementStyles } from "./style";
 import { DropdownMenu } from "../../../UI/components/DropdownMenu";
 import { useNotes } from "../../../hooks/notes/useNotes";
 import { NoteType } from "../../../types/notes";
+import { useTranslation } from "react-i18next";
 
 interface NoteListElementProps {
     note: NoteType;
@@ -18,25 +19,26 @@ export const NoteListElement = ({
     onClick,
     onDelete,
 }: NoteListElementProps) => {
+    const { t } = useTranslation();
     const { updateExistingNote } = useNotes();
 
     const dropdownOptions = useMemo(() => {
         let options = [];
         if (!note.pinned) {
             options.push({
-                label: "Pin",
+                label: t("dropdownMenus.notes.pin"),
                 value: "pin",
             });
         } else {
             options.push({
-                label: "Unpin",
+                label: t("dropdownMenus.notes.unpin"),
                 value: "unpin",
             });
         }
         options = [
             ...options,
             {
-                label: "Delete",
+                label: t("dropdownMenus.notes.delete"),
                 value: "delete",
             },
         ];

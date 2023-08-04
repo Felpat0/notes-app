@@ -46,6 +46,13 @@
             "confirmOperation": "Are you sure you want to perform this operation?"
         }
     },
+    "dropdownMenus": {
+        "notes": {
+            "pin": "Pin",
+            "unpin": "Unpin",
+            "delete": "Delete"
+        }
+    },
     "successes": {
         "general": {
             "title": "Success",

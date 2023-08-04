@@ -26,7 +26,6 @@ export const HomeScreen: React.FC<Props> = ({ navigation }: Props) => {
     const dispatch = useDispatch();
     const { notes } = useAppSelector((state) => state.notes);
     const { createNewNote, deleteExistingNote } = useNotes();
-    //const [notes, setNotes] = useState<NoteType[]>([]);
     const [currentDate] = useState<Date>(new Date());
 
     const pinnedNotes = useMemo(() => {
