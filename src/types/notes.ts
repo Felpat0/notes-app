@@ -22,3 +22,9 @@ export type NoteRecurrenceType = {
     months?: number[]; // 0-11
     years?: number[];
 };
+
+export type SelectedNoteDataType = {
+    note: NoteType;
+    x: number;
+    y: number;
+};

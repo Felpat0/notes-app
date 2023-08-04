@@ -1,5 +1,6 @@
 import React, {
     useCallback,
+    useEffect,
     useLayoutEffect,
     useMemo,
     useRef,
@@ -22,7 +23,14 @@ type DropdownMenuProps = {
     children?: React.ReactNode;
     options: DropdownOption[];
     onSelect?: (value: DropdownOption["value"]) => void;
+    onClose?: () => void;
     position?: "left" | "right";
+    forceOptionsOpen?: boolean;
+    coordinates?: {
+        x: number;
+        y: number;
+    };
+    hideTrigger?: boolean;
 };
 
 export const DropdownMenu: React.FC<DropdownMenuProps> = ({
@@ -35,17 +43,37 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
     ),
     options,
     onSelect,
+    onClose,
     position = "left",
+    forceOptionsOpen,
+    coordinates,
+    hideTrigger,
 }: DropdownMenuProps) => {
     const [showOptions, setShowOptions] = useState(false);
     const [measure, setMeasure] = useState<Measure | undefined>();
     const dimensions = useWindowDimensions();
     const triggerRef = useRef<TouchableOpacity | null>(null);
 
-    const styles = useMemo(
-        () => getDropdownMenuStyles(position, dimensions.width, measure),
-        [position, dimensions, measure]
-    );
+    const styles = useMemo(() => {
+        const newMeasure = measure;
+        if (coordinates && newMeasure) {
+            newMeasure.pageX = coordinates.x;
+            newMeasure.pageY = coordinates.y;
+        }
+        return getDropdownMenuStyles(position, dimensions.width, newMeasure);
+    }, [position, dimensions, measure, coordinates]);
+
+    useEffect(() => {
+        if (forceOptionsOpen !== undefined) {
+            setShowOptions(forceOptionsOpen);
+        }
+    }, [forceOptionsOpen]);
+
+    useLayoutEffect(() => {
+        triggerRef.current?.measure((x, y, width, height, pageX, pageY) => {
+            setMeasure({ x, y, width, height, pageX, pageY });
+        });
+    }, [showOptions]);
 
     const handleSelectOption = useCallback(
         (option: string) => {
@@ -55,11 +83,10 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
         [onSelect]
     );
 
-    useLayoutEffect(() => {
-        triggerRef.current?.measure((x, y, width, height, pageX, pageY) => {
-            setMeasure({ x, y, width, height, pageX, pageY });
-        });
-    }, [showOptions]);
+    const handleClose = useCallback(() => {
+        setShowOptions(false);
+        onClose && onClose();
+    }, [onClose]);
 
     return (
         <View>
@@ -67,16 +94,16 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
                 ref={triggerRef}
                 onPress={() => setShowOptions(!showOptions)}
             >
-                {children}
+                {!hideTrigger && children}
             </TouchableOpacity>
             <Modal
                 visible={showOptions}
                 transparent={true}
-                onRequestClose={() => setShowOptions(false)}
+                onRequestClose={handleClose}
             >
                 <TouchableOpacity
                     style={StyleSheet.absoluteFill}
-                    onPress={() => setShowOptions(false)}
+                    onPress={handleClose}
                 />
                 <View style={styles.options}>
                     {options.map((option) => (

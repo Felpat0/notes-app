@@ -9,16 +9,18 @@ import { NoteType } from "../../types/notes";
 import { useDebounce } from "../../UI/hooks/useDebounce";
 import { constants } from "../../config/constants";
 import { useNotes } from "../../hooks/notes/useNotes";
-import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../../redux/store";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Note">;
 
 export const NoteScreen: React.FC<Props> = ({ route }: Props) => {
-    const { t } = useTranslation();
     const { notes } = useAppSelector((state) => state.notes);
     const [currentNote, setCurrentNote] = useState<NoteType | undefined>();
-    const { updateExistingNote, deleteExistingNote } = useNotes();
+    const {
+        updateExistingNote,
+        getNoteDropdownOptions,
+        handleNoteDropdownItemClick,
+    } = useNotes();
 
     const note = useMemo(() => {
         return notes.find((note) => note.id === route.params?.noteId);
@@ -41,29 +43,6 @@ export const NoteScreen: React.FC<Props> = ({ route }: Props) => {
         }
     }, [debouncedNote]);
 
-    const dropdownOptions = useMemo(() => {
-        let options = [];
-        if (!note?.pinned) {
-            options.push({
-                label: t("dropdownMenus.notes.pin"),
-                value: "pin",
-            });
-        } else {
-            options.push({
-                label: t("dropdownMenus.notes.unpin"),
-                value: "unpin",
-            });
-        }
-        options = [
-            ...options,
-            {
-                label: t("dropdownMenus.notes.delete"),
-                value: "delete",
-            },
-        ];
-        return options;
-    }, [note]);
-
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const onChange = useCallback((newValue: any, field: keyof NoteType) => {
         setCurrentNote((currentNote) => {
@@ -74,32 +53,6 @@ export const NoteScreen: React.FC<Props> = ({ route }: Props) => {
             };
         });
     }, []);
-
-    const handleDropdownItemClick = useCallback(
-        (value: string) => {
-            if (!note) return;
-            switch (value) {
-                case "delete":
-                    deleteExistingNote(note.id);
-                    break;
-                case "pin":
-                    updateExistingNote({
-                        ...note,
-                        pinned: true,
-                    });
-                    break;
-                case "unpin":
-                    updateExistingNote({
-                        ...note,
-                        pinned: false,
-                    });
-                    break;
-                default:
-                    break;
-            }
-        },
-        [deleteExistingNote, note]
-    );
 
     if (!currentNote) return <View></View>;
 
@@ -114,8 +67,10 @@ export const NoteScreen: React.FC<Props> = ({ route }: Props) => {
                     style={noteScreenStyles.titleInput}
                 />
                 <DropdownMenu
-                    options={dropdownOptions}
-                    onSelect={handleDropdownItemClick}
+                    options={getNoteDropdownOptions(currentNote)}
+                    onSelect={(value) =>
+                        handleNoteDropdownItemClick(value, currentNote)
+                    }
                 />
             </View>
             <RichEditor

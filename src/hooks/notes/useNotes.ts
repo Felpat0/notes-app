@@ -9,8 +9,10 @@ import {
 } from "../../firebase/notes";
 import { handleAsyncOperation } from "../../UI/utils";
 import i18n from "../../localization/i18n";
+import { useTranslation } from "react-i18next";
 
 export const useNotes = () => {
+    const { t } = useTranslation();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
 
@@ -105,6 +107,58 @@ export const useNotes = () => {
         );
     }, []);
 
+    const getNoteDropdownOptions = useCallback(
+        (note: NoteType) => {
+            let options = [];
+            if (!note.pinned) {
+                options.push({
+                    label: t("dropdownMenus.notes.pin"),
+                    value: "pin",
+                });
+            } else {
+                options.push({
+                    label: t("dropdownMenus.notes.unpin"),
+                    value: "unpin",
+                });
+            }
+            options = [
+                ...options,
+                {
+                    label: t("dropdownMenus.notes.delete"),
+                    value: "delete",
+                },
+            ];
+            return options;
+        },
+        [t]
+    );
+
+    const handleNoteDropdownItemClick = useCallback(
+        (value: string, note: NoteType) => {
+            if (!note) return;
+            switch (value) {
+                case "delete":
+                    deleteExistingNote(note.id);
+                    break;
+                case "pin":
+                    updateExistingNote({
+                        ...note,
+                        pinned: true,
+                    });
+                    break;
+                case "unpin":
+                    updateExistingNote({
+                        ...note,
+                        pinned: false,
+                    });
+                    break;
+                default:
+                    break;
+            }
+        },
+        [deleteExistingNote, updateExistingNote]
+    );
+
     return {
         loading,
         error,
@@ -113,5 +167,7 @@ export const useNotes = () => {
         createNewNote,
         updateExistingNote,
         deleteExistingNote,
+        getNoteDropdownOptions,
+        handleNoteDropdownItemClick,
     };
 };

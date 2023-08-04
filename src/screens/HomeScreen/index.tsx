@@ -1,4 +1,4 @@
-import { ScrollView } from "react-native";
+import { GestureResponderEvent, ScrollView } from "react-native";
 import { NoteListElement } from "../../components/Home/NoteListElement";
 import { homeScreenStyles } from "./style";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -12,12 +12,13 @@ import { useTranslation } from "react-i18next";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { colors } from "../../UI/theme/colors";
 import { isNotePinned } from "../../utils/notes";
-import { Card } from "../../UI/components";
+import { Card, DropdownMenu } from "../../UI/components";
 import { useAppSelector } from "../../redux/store";
 import { notesRef } from "../../firebase/notes";
 import { useDispatch } from "react-redux";
 import { setNotes } from "../../redux/slices/notesSlice";
 import { firestoreNoteToNote } from "../../utils/conversions";
+import { NoteType, SelectedNoteDataType } from "../../types/notes";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
@@ -25,8 +26,16 @@ export const HomeScreen: React.FC<Props> = ({ navigation }: Props) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const { notes } = useAppSelector((state) => state.notes);
-    const { createNewNote, deleteExistingNote } = useNotes();
+    const {
+        createNewNote,
+        getNoteDropdownOptions,
+        handleNoteDropdownItemClick,
+    } = useNotes();
+
     const [currentDate] = useState<Date>(new Date());
+    const [selectedNoteData, setSelectedNoteData] = useState<
+        SelectedNoteDataType | undefined
+    >();
 
     const pinnedNotes = useMemo(() => {
         return notes.filter((note) => isNotePinned(note, currentDate));
@@ -59,13 +68,16 @@ export const HomeScreen: React.FC<Props> = ({ navigation }: Props) => {
         [navigation]
     );
 
-    const handleNoteDelete = useCallback(async (noteId: string) => {
-        try {
-            await deleteExistingNote(noteId);
-        } catch (e) {
-            console.log(e);
-        }
-    }, []);
+    const handlePinnedNoteLongPress = useCallback(
+        (event: GestureResponderEvent, note: NoteType) => {
+            setSelectedNoteData({
+                note,
+                x: event.nativeEvent.pageX,
+                y: event.nativeEvent.pageY,
+            });
+        },
+        [setSelectedNoteData]
+    );
 
     return (
         <ScrollView contentContainerStyle={homeScreenStyles.container}>
@@ -81,6 +93,9 @@ export const HomeScreen: React.FC<Props> = ({ navigation }: Props) => {
                             key={note.id}
                             title={note.title}
                             onPress={() => handleNoteClick(note.id)}
+                            onLongPress={(event) =>
+                                handlePinnedNoteLongPress(event, note)
+                            }
                         />
                     ))}
                 </ScrollView>
@@ -100,10 +115,27 @@ export const HomeScreen: React.FC<Props> = ({ navigation }: Props) => {
                         key={note.id}
                         note={note}
                         onClick={handleNoteClick}
-                        onDelete={handleNoteDelete}
                     />
                 ))}
             </HomeSection>
+            {selectedNoteData && (
+                <DropdownMenu
+                    options={getNoteDropdownOptions(selectedNoteData.note)}
+                    onSelect={(value) =>
+                        handleNoteDropdownItemClick(
+                            value,
+                            selectedNoteData.note
+                        )
+                    }
+                    coordinates={{
+                        x: selectedNoteData.x,
+                        y: selectedNoteData.y,
+                    }}
+                    forceOptionsOpen={true}
+                    onClose={() => setSelectedNoteData(undefined)}
+                    hideTrigger
+                />
+            )}
         </ScrollView>
     );
 };

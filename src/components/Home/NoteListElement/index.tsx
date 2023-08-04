@@ -1,10 +1,9 @@
-import React, { useCallback, useMemo } from "react";
+import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { noteListElementStyles } from "./style";
 import { DropdownMenu } from "../../../UI/components/DropdownMenu";
 import { useNotes } from "../../../hooks/notes/useNotes";
 import { NoteType } from "../../../types/notes";
-import { useTranslation } from "react-i18next";
 
 interface NoteListElementProps {
     note: NoteType;
@@ -17,58 +16,8 @@ export const NoteListElement = ({
     note,
     subtitle,
     onClick,
-    onDelete,
 }: NoteListElementProps) => {
-    const { t } = useTranslation();
-    const { updateExistingNote } = useNotes();
-
-    const dropdownOptions = useMemo(() => {
-        let options = [];
-        if (!note.pinned) {
-            options.push({
-                label: t("dropdownMenus.notes.pin"),
-                value: "pin",
-            });
-        } else {
-            options.push({
-                label: t("dropdownMenus.notes.unpin"),
-                value: "unpin",
-            });
-        }
-        options = [
-            ...options,
-            {
-                label: t("dropdownMenus.notes.delete"),
-                value: "delete",
-            },
-        ];
-        return options;
-    }, [note.pinned]);
-
-    const handleDropdownMenuSelect = useCallback(
-        async (value: string) => {
-            switch (value) {
-                case "delete":
-                    onDelete && onDelete(note.id);
-                    break;
-                case "pin":
-                    await updateExistingNote({
-                        ...note,
-                        pinned: true,
-                    });
-                    break;
-                case "unpin":
-                    await updateExistingNote({
-                        ...note,
-                        pinned: false,
-                    });
-                    break;
-                default:
-                    break;
-            }
-        },
-        [onDelete]
-    );
+    const { getNoteDropdownOptions, handleNoteDropdownItemClick } = useNotes();
 
     return (
         <TouchableOpacity onPress={() => onClick && onClick(note.id)}>
@@ -87,9 +36,11 @@ export const NoteListElement = ({
                 </View>
 
                 <DropdownMenu
-                    options={dropdownOptions}
+                    options={getNoteDropdownOptions(note)}
                     position={"left"}
-                    onSelect={handleDropdownMenuSelect}
+                    onSelect={(value) =>
+                        handleNoteDropdownItemClick(value, note)
+                    }
                 />
             </View>
         </TouchableOpacity>
