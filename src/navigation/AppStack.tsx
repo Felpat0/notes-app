@@ -12,7 +12,12 @@ export type RootStackParamList = {
 const Stack = createStackNavigator<RootStackParamList>();
 
 export const AppStack = (
-    <Stack.Navigator initialRouteName={"Home"}>
+    <Stack.Navigator
+        initialRouteName={"Home"}
+        screenOptions={{
+            presentation: "modal",
+        }}
+    >
         <Stack.Screen
             name="Home"
             component={HomeScreen}
