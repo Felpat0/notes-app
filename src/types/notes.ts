@@ -5,7 +5,7 @@ export type NoteType = {
     createdAt: Date;
     updatedAt: Date;
     pinned?: boolean;
-    recurrences: NoteRecurrenceType[];
+    recurrence?: NoteRecurrenceType;
     userId?: string;
 };
 

@@ -8,6 +8,15 @@
         "notes": "Notes",
         "projects": "Projects"
     },
+    "recurrence": {
+        "none": "None",
+        "punctual": "One day",
+        "punctualRecurrenceDate": "Recurrence date",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly",
+        "yearly": "Yearly"
+    },
     "buttons": {
         "ok": "Ok",
         "cancel": "Cancel",
@@ -51,6 +60,12 @@
             "pin": "Pin",
             "unpin": "Unpin",
             "delete": "Delete"
+        }
+    },
+    "modals": {
+        "recurrenceModal": {
+            "title": "Note Recurrence",
+            "setNoteRecurrence": "Set note recurrence"
         }
     },
     "successes": {

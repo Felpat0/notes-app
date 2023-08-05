@@ -17,10 +17,12 @@ export const NoteListElement = ({
     subtitle,
     onClick,
 }: NoteListElementProps) => {
-    const { getNoteDropdownOptions, handleNoteDropdownItemClick } = useNotes();
+    const { getNoteDropdownOptions, handleNoteDropdownItemClick, NotesModals } =
+        useNotes();
 
     return (
         <TouchableOpacity onPress={() => onClick && onClick(note.id)}>
+            {NotesModals}
             <View style={noteListElementStyles.rectangle}>
                 <View>
                     <View style={noteListElementStyles.titleContainer}>

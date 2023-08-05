@@ -6,7 +6,7 @@ export type ThemeType = "dark" | "light";
 export type TextVariant = "title" | "subtitle" | "paragraph";
 export type TextColorVariant = "primary" | "secondary";
 
-export type ButtonVariant = "primary" | "secondary" | "tertiary";
+export type ButtonVariant = "primary" | "secondary" | "tertiary" | "borderless";
 export type ButtonState = "idle" | "hover" | "disabled";
 export type ButtonSize = "small" | "medium" | "large";
 

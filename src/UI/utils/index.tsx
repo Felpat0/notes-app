@@ -34,7 +34,11 @@ export const getTextColor = (
 export const getButtonColors = (
     buttonVariant: ButtonVariant = "primary",
     buttonState: ButtonState = "idle"
-) => {
+): {
+    color: string;
+    backgroundColor: string;
+    borderColor?: string;
+} => {
     return themeColors.button[buttonVariant][buttonState];
 };
 export const getButtonSize = (
@@ -130,7 +134,7 @@ export const handleAsyncOperation = async <T,>(
         } catch (error: any) {
             setError && setError(error.message);
             setLoading && setLoading(false);
-
+            console.log(error);
             if (options?.error) {
                 store.dispatch(
                     displayAlert({

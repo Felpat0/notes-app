@@ -20,6 +20,7 @@ export const NoteScreen: React.FC<Props> = ({ route }: Props) => {
         updateExistingNote,
         getNoteDropdownOptions,
         handleNoteDropdownItemClick,
+        NotesModals,
     } = useNotes();
 
     const note = useMemo(() => {
@@ -58,6 +59,7 @@ export const NoteScreen: React.FC<Props> = ({ route }: Props) => {
 
     return (
         <View style={noteScreenStyles.container}>
+            {NotesModals}
             <View style={noteScreenStyles.titleContainer}>
                 <Input
                     value={currentNote.title}

@@ -7,6 +7,16 @@
         "pinnedNotes": "Note in evidenza",
         "notes": "Note"
     },
+    "recurrence": {
+        "none": "Nessuna ricorrenza",
+        "punctual": "Un giorno",
+        "punctualRecurrenceDate": "Data ricorrenza",
+        "daily": "Ogni giorno",
+        "weekly": "Ogni settimana",
+        "monthly": "Ogni mese",
+        "yearly": "Ogni anno"
+
+    },
     "buttons": {
         "ok": "Ok",
         "cancel": "Annulla",
@@ -44,6 +54,12 @@
         },
         "alerts": {
             "confirmOperation": "Sei sicuro di voler eseguire questa operazione?"
+        }
+    },
+    "modals": {
+        "recurrenceModal": {
+            "title": "Ricorrenze nota",
+            "setNoteRecurrence": "Imposta ricorrenza nota"
         }
     },
     "dropdownMenus": {

@@ -29,9 +29,10 @@ export const DatePicker: React.FC<Props> = ({
                     value={date}
                     mode={mode}
                     is24Hour={true}
-                    onChange={(event, date) =>
-                        date && onChange && onChange(event, date)
-                    }
+                    onChange={(event, date) => {
+                        date && onChange && onChange(event, date);
+                        setShow(false);
+                    }}
                 />
             )}
         </>

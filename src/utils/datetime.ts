@@ -15,8 +15,10 @@ export const dateToCalendarDateText = (date?: Date) => {
 
 export const isDateIncludedInRecurrence = (
     date: Date,
-    recurrence: NoteRecurrenceType
+    recurrence?: NoteRecurrenceType
 ): boolean => {
+    if (!recurrence) return false;
+
     switch (recurrence.type) {
         case "punctual":
             return isSameDay(date, recurrence.startDate);

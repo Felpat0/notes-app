@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { NoteCreationType, NoteType } from "../../types/notes";
 import {
     createNote,
@@ -10,11 +10,15 @@ import {
 import { handleAsyncOperation } from "../../UI/utils";
 import i18n from "../../localization/i18n";
 import { useTranslation } from "react-i18next";
+import { RecurrenceModal } from "../../components/Notes/RecurrenceModal";
 
 export const useNotes = () => {
     const { t } = useTranslation();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
+    const [recurrenceModalNote, setRecurrenceModalNote] = useState<
+        NoteType | undefined
+    >();
 
     const getSingleNote = useCallback(
         async (noteId: string): Promise<NoteType | undefined> => {
@@ -57,10 +61,6 @@ export const useNotes = () => {
                     error: {
                         title: i18n.t("errors.notes.title"),
                         message: i18n.t("errors.notes.message"),
-                    },
-                    success: {
-                        title: i18n.t("successes.general.title"),
-                        message: i18n.t("successes.general.message"),
                     },
                 }
             );
@@ -124,6 +124,10 @@ export const useNotes = () => {
             options = [
                 ...options,
                 {
+                    label: t("modals.recurrenceModal.setNoteRecurrence"),
+                    value: "recurrence",
+                },
+                {
                     label: t("dropdownMenus.notes.delete"),
                     value: "delete",
                 },
@@ -152,11 +156,55 @@ export const useNotes = () => {
                         pinned: false,
                     });
                     break;
+                case "recurrence":
+                    openRecurrenceModal(note);
+                    break;
                 default:
                     break;
             }
         },
         [deleteExistingNote, updateExistingNote]
+    );
+
+    const openRecurrenceModal = useCallback((note: NoteType) => {
+        setRecurrenceModalNote(note);
+    }, []);
+
+    const handleRecurrenceModalSave = useCallback(
+        (recurrence?: NoteType["recurrence"]) => {
+            if (!recurrenceModalNote) return;
+
+            updateExistingNote({
+                ...recurrenceModalNote,
+                recurrence,
+            });
+            setRecurrenceModalNote(undefined);
+        },
+        [recurrenceModalNote, updateExistingNote]
+    );
+
+    const handleRecurrenceModalCancel = useCallback(() => {
+        setRecurrenceModalNote(undefined);
+    }, []);
+
+    const NotesModals = useMemo(
+        () => (
+            <>
+                {recurrenceModalNote && (
+                    <RecurrenceModal
+                        note={recurrenceModalNote}
+                        onSave={handleRecurrenceModalSave}
+                        onCancel={handleRecurrenceModalCancel}
+                        visible
+                    />
+                )}
+            </>
+        ),
+        [
+            recurrenceModalNote,
+            handleRecurrenceModalSave,
+            handleRecurrenceModalCancel,
+        ]
     );
 
     return {
@@ -169,5 +217,9 @@ export const useNotes = () => {
         deleteExistingNote,
         getNoteDropdownOptions,
         handleNoteDropdownItemClick,
+        openRecurrenceModal,
+        handleRecurrenceModalSave,
+        handleRecurrenceModalCancel,
+        NotesModals,
     };
 };

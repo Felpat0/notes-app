@@ -30,6 +30,7 @@ export const HomeScreen: React.FC<Props> = ({ navigation }: Props) => {
         createNewNote,
         getNoteDropdownOptions,
         handleNoteDropdownItemClick,
+        NotesModals,
     } = useNotes();
 
     const [currentDate] = useState<Date>(new Date());
@@ -43,13 +44,19 @@ export const HomeScreen: React.FC<Props> = ({ navigation }: Props) => {
 
     useEffect(() => {
         notesRef.onSnapshot((snapshot) => {
-            dispatch(
-                setNotes({
-                    notes: snapshot.docs.map((doc) =>
-                        firestoreNoteToNote(doc.data())
-                    ),
-                })
-            );
+            if (snapshot) {
+                const notes = snapshot.docs.map((doc) =>
+                    firestoreNoteToNote(doc.data())
+                );
+                dispatch(
+                    setNotes({
+                        notes: notes.sort(
+                            (a, b) =>
+                                b.createdAt.getTime() - a.createdAt.getTime()
+                        ),
+                    })
+                );
+            }
         });
     }, [dispatch]);
 
@@ -81,6 +88,7 @@ export const HomeScreen: React.FC<Props> = ({ navigation }: Props) => {
 
     return (
         <ScrollView contentContainerStyle={homeScreenStyles.container}>
+            {NotesModals}
             <Greeting name={getCurrentUser()?.displayName || ""} />
             <HomeSection title={t("home.pinnedNotes")}>
                 <ScrollView

@@ -34,7 +34,7 @@ export const constants = {
                     fontWeight: "600",
                 },
                 paragraph: {
-                    fontSize: 13,
+                    fontSize: 15,
                     fontWeight: "400",
                 },
             },

@@ -1,6 +1,6 @@
 import firestore from "@react-native-firebase/firestore";
 import { NoteCreationType, NoteType } from "../types/notes";
-import { firestoreNoteToNote } from "../utils/conversions";
+import { firestoreNoteToNote, prepareForFirestore } from "../utils/conversions";
 import { getCurrentUser } from "./auth";
 
 export const noteRef = (noteId: string) =>
@@ -67,20 +67,20 @@ export const createNote = async (note?: NoteCreationType): Promise<NoteType> =>
             .add(newNoteData);
         await newNoteRef.update({ id: newNoteRef.id });
 
-        return getNoteById(newNoteRef.id);
+        return await getNoteById(newNoteRef.id);
     });
 
 export const updateNote = async (note: NoteType): Promise<NoteType> =>
     performNoteAction(async () => {
         const currentUser = getCurrentUser();
-        const newNoteData = {
+        const newNoteData = prepareForFirestore({
             ...note,
             userId: currentUser?.uid,
             updatedAt: firestore.Timestamp.now(),
-        };
+        });
         await noteRef(newNoteData.id).update(newNoteData);
 
-        return getNoteById(newNoteData.id);
+        return await getNoteById(newNoteData.id);
     });
 
 export const deleteNote = async (noteId: string): Promise<void> =>

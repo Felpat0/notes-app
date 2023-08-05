@@ -51,15 +51,15 @@ export const themeColors = {
         secondary: {
             idle: {
                 color: colors.white1,
-                backgroundColor: colors.blue3,
+                backgroundColor: colors.purple2,
             },
             hover: {
                 color: colors.white1,
-                backgroundColor: colors.blue4,
+                backgroundColor: colors.purple2,
             },
             disabled: {
                 color: colors.white1,
-                backgroundColor: colors.blue2,
+                backgroundColor: colors.purple4,
             },
         },
         tertiary: {
@@ -74,6 +74,23 @@ export const themeColors = {
             disabled: {
                 color: colors.white1,
                 backgroundColor: colors.blue2,
+            },
+        },
+        borderless: {
+            idle: {
+                color: colors.white1,
+                backgroundColor: colors.transparent,
+                borderColor: colors.blue3,
+            },
+            hover: {
+                color: colors.white1,
+                backgroundColor: colors.transparent,
+                borderColor: colors.blue4,
+            },
+            disabled: {
+                color: colors.white1,
+                backgroundColor: colors.transparent,
+                borderColor: colors.blue2,
             },
         },
     },
