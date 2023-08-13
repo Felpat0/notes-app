@@ -88,18 +88,18 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
         });
     }, [showOptions]);
 
-    const handleSelectOption = useCallback(
-        (option: string) => {
-            setShowOptions(false);
-            onSelect && onSelect(option);
-        },
-        [onSelect]
-    );
-
     const handleClose = useCallback(() => {
         setShowOptions(false);
         onClose && onClose();
     }, [onClose]);
+
+    const handleSelectOption = useCallback(
+        (option: string) => {
+            handleClose();
+            onSelect && onSelect(option);
+        },
+        [onSelect, handleClose]
+    );
 
     return (
         <View>

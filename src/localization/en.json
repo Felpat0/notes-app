@@ -15,7 +15,10 @@
         "daily": "Daily",
         "weekly": "Weekly",
         "monthly": "Monthly",
-        "yearly": "Yearly"
+        "yearly": "Yearly",
+        "never": "Never",
+        "ends": "Ends",
+        "on": "On"
     },
     "buttons": {
         "ok": "Ok",

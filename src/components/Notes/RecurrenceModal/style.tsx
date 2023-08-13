@@ -7,6 +7,18 @@ export const recurrenceModalStyles = StyleSheet.create({
         alignItems: "center",
         marginTop: 10,
     },
+    inputsContainer: {
+        gap: 10,
+    },
+    endDateSection: {
+        flexDirection: "column",
+        gap: 5,
+    },
+    endDateDatepickerContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 10,
+    },
     footer: {
         flexDirection: "row",
         justifyContent: "flex-end",

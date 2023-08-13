@@ -14,8 +14,10 @@
         "daily": "Ogni giorno",
         "weekly": "Ogni settimana",
         "monthly": "Ogni mese",
-        "yearly": "Ogni anno"
-
+        "yearly": "Ogni anno",
+        "never": "Mai",
+        "ends": "Finisce",
+        "on": "Il"
     },
     "buttons": {
         "ok": "Ok",
