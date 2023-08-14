@@ -26,7 +26,10 @@ export const AppStack = (
         <Stack.Screen
             name="Note"
             component={NoteScreen}
-            options={constants.defaultStackScreenOptions}
+            options={{
+                ...constants.defaultStackScreenOptions,
+                animationEnabled: false,
+            }}
         />
     </Stack.Navigator>
 );

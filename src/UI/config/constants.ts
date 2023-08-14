@@ -1,5 +1,3 @@
-import { actions } from "react-native-pell-rich-editor";
-
 export const constants = {
     breakpoints: {
         mobile: 320,
@@ -7,19 +5,12 @@ export const constants = {
         desktop: 1024,
     },
     richEditorToolbarActions: [
-        actions.removeFormat,
-        actions.undo,
-        actions.redo,
-        actions.setBold,
-        actions.setItalic,
-        actions.heading1,
-        actions.heading2,
-        actions.insertBulletsList,
-        actions.insertOrderedList,
-        actions.insertLink,
-        actions.checkboxList,
-        actions.setStrikethrough,
-        actions.insertImage,
+        [{ header: [1, 2, false] }],
+        ["bold", "italic", "underline", "strike"],
+        ["image", "code-block"],
+        [{ list: "check" }, { list: "ordered" }, { list: "bullet" }],
+        [{ align: [] }],
+        ["clean"],
     ],
     mobile: {
         style: {

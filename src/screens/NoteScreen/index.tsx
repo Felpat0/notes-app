@@ -76,8 +76,8 @@ export const NoteScreen: React.FC<Props> = ({ route }: Props) => {
                 />
             </View>
             <RichEditor
-                initialContentHTML={currentNote.content}
-                onChange={(content: string) => onChange(content, "content")}
+                initialHtml={currentNote.content}
+                onHtmlChange={(content) => onChange(content.html, "content")}
             />
         </View>
     );
