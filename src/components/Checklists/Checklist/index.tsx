@@ -7,6 +7,7 @@ import { constants } from "../../../config/constants";
 import { useChecklists } from "../../../hooks/checklists/useChecklists";
 import { generateUniqueId } from "../../../utils/generic";
 import { useTranslation } from "react-i18next";
+import { checklistStyles } from "./style";
 
 type Props = {
     id?: ChecklistType["id"];
@@ -123,13 +124,13 @@ export const Checklist: React.FC<Props> = ({ id, date }: Props) => {
 
     const onNewChecklistItemChange = useCallback(
         (checklistItem: ChecklistItemType) => {
-            setNewChecklistItem(checklistItem);
+            setNewChecklistItem({ ...checklistItem, isChecked: false });
         },
         []
     );
 
     return (
-        <View>
+        <View style={checklistStyles.container}>
             {currentChecklist?.items.map((item) => (
                 <ChecklistElement
                     key={item.id}

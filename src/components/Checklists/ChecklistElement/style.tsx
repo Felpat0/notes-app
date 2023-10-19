@@ -7,6 +7,7 @@ export const checklistElementStyles = StyleSheet.create({
     },
     input: {
         flex: 1,
-        marginLeft: 8,
+        marginLeft: 2,
+        height: 37,
     },
 });
