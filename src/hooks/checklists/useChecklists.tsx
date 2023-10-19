@@ -7,6 +7,7 @@ import {
     deleteChecklist,
     getChecklistByDate,
     getChecklistById,
+    getChecklistByNoteId,
     updateChecklist,
 } from "../../firebase/checklists";
 
@@ -17,15 +18,22 @@ export const useChecklists = () => {
 
     const getSingleChecklist = useCallback(
         async (
-            idOrDate: ChecklistType["id"] | ChecklistType["date"]
+            key: "id" | "date" | "noteId",
+            keyValue: string | Date
         ): Promise<ChecklistType | undefined> => {
-            if (!idOrDate) return Promise.reject("No id or date provided");
-
             return await handleAsyncOperation<ChecklistType | undefined>(
-                () =>
-                    typeof idOrDate === "string"
-                        ? getChecklistById(idOrDate)
-                        : getChecklistByDate(idOrDate),
+                async () => {
+                    switch (key) {
+                        case "id":
+                            return getChecklistById(keyValue as string);
+                        case "date":
+                            return getChecklistByDate(keyValue as Date);
+                        case "noteId":
+                            return getChecklistByNoteId(keyValue as string);
+                        default:
+                            break;
+                    }
+                },
                 setLoading,
                 setError,
                 {

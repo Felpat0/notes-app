@@ -2,6 +2,7 @@ import firestore from "@react-native-firebase/firestore";
 import { getCurrentUser } from "./auth";
 import { ChecklistCreationType, ChecklistType } from "../types/checklists";
 import { firestoreChecklistToChecklist } from "../utils/conversions";
+import { NoteType } from "../types/notes";
 
 export const checklistRef = (checklistId: string) =>
     firestore().collection("checklists").doc(checklistId);
@@ -70,6 +71,23 @@ export const getChecklistByDate = async (
 
         const checklist = checklistSnapshot.docs[0];
 
+        return firestoreChecklistToChecklist({
+            ...checklist.data(),
+            id: checklist.id,
+        });
+    });
+
+export const getChecklistByNoteId = async (
+    noteId: NoteType["id"]
+): Promise<ChecklistType | undefined> =>
+    performChecklistAction(async () => {
+        const checklistSnapshot = await checklistsRef
+            .where("noteId", "==", noteId)
+            .get();
+
+        if (checklistSnapshot.empty) return undefined;
+
+        const checklist = checklistSnapshot.docs[0];
         return firestoreChecklistToChecklist({
             ...checklist.data(),
             id: checklist.id,

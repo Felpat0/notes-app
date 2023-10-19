@@ -10,6 +10,7 @@ import { useDebounce } from "../../UI/hooks/useDebounce";
 import { constants } from "../../config/constants";
 import { useNotes } from "../../hooks/notes/useNotes";
 import { useAppSelector } from "../../redux/store";
+import { Checklist } from "../../components/Checklists/Checklist";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Note">;
 
@@ -75,6 +76,7 @@ export const NoteScreen: React.FC<Props> = ({ route }: Props) => {
                     }
                 />
             </View>
+            <Checklist noteId={currentNote.id} />
             <RichEditor
                 initialHtml={currentNote.content}
                 onHtmlChange={(content) => onChange(content.html, "content")}

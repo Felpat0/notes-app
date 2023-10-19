@@ -12,6 +12,7 @@ import { checklistStyles } from "./style";
 type Props = {
     id?: ChecklistType["id"];
     date?: ChecklistType["date"];
+    noteId?: ChecklistType["noteId"];
 };
 
 const INITIAL_NEW_CHECKLIST_ITEM: ChecklistItemType = {
@@ -20,7 +21,7 @@ const INITIAL_NEW_CHECKLIST_ITEM: ChecklistItemType = {
     isChecked: false,
 };
 
-export const Checklist: React.FC<Props> = ({ id, date }: Props) => {
+export const Checklist: React.FC<Props> = ({ id, date, noteId }: Props) => {
     const [currentChecklist, setCurrentChecklist] = useState<ChecklistType>();
     const [newChecklistItem, setNewChecklistItem] = useState<ChecklistItemType>(
         INITIAL_NEW_CHECKLIST_ITEM
@@ -40,7 +41,7 @@ export const Checklist: React.FC<Props> = ({ id, date }: Props) => {
         const init = async () => {
             // Get the checklist according to the provided id or date
             if (id) {
-                const checklist = await getSingleChecklist(id);
+                const checklist = await getSingleChecklist("id", id);
                 if (checklist) setCurrentChecklist(checklist);
                 else {
                     const newChecklist = await createNewChecklist({
@@ -49,12 +50,22 @@ export const Checklist: React.FC<Props> = ({ id, date }: Props) => {
                     setCurrentChecklist(newChecklist);
                 }
             } else if (date) {
-                const checklist = await getSingleChecklist(date);
+                const checklist = await getSingleChecklist("date", date);
                 if (checklist) setCurrentChecklist(checklist);
                 else {
                     const newChecklist = await createNewChecklist({
                         items: [],
                         date,
+                    });
+                    setCurrentChecklist(newChecklist);
+                }
+            } else if (noteId) {
+                const checklist = await getSingleChecklist("noteId", noteId);
+                if (checklist) setCurrentChecklist(checklist);
+                else {
+                    const newChecklist = await createNewChecklist({
+                        items: [],
+                        noteId: noteId as string,
                     });
                     setCurrentChecklist(newChecklist);
                 }

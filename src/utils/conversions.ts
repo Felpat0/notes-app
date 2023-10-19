@@ -18,9 +18,10 @@ export const firestoreChecklistToChecklist = (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     checklist: any
 ): ChecklistType => {
+    if (!checklist.date) return checklist;
     return {
         ...checklist,
-        date: checklist.date ? checklist.date.toDate() : undefined,
+        date: checklist.date.toDate(),
     };
 };
 
