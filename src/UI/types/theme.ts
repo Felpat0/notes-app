@@ -10,8 +10,8 @@ export type ButtonVariant = "primary" | "secondary" | "tertiary" | "borderless";
 export type ButtonState = "idle" | "hover" | "disabled";
 export type ButtonSize = "small" | "medium" | "large";
 
-export type InputVariant = "default" | "borderless";
-export type InputState = "idle" | "hover" | "disabled";
+export type InputVariant = "default" | "borderBottom" | "borderless";
+export type InputState = "idle" | "focused" | "disabled";
 export type InputSize = "small" | "medium" | "large";
 
 export type CheckboxVariant = "default";

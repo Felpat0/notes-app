@@ -1,3 +1,4 @@
+import { ChecklistType } from "../types/checklists";
 import { NoteRecurrenceType, NoteType } from "../types/notes";
 import firestore from "@react-native-firebase/firestore";
 
@@ -10,6 +11,16 @@ export const firestoreNoteToNote = (note: any): NoteType => {
         recurrence: note.recurrence
             ? firestoreRecurrenceToRecurrence(note.recurrence)
             : undefined,
+    };
+};
+
+export const firestoreChecklistToChecklist = (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    checklist: any
+): ChecklistType => {
+    return {
+        ...checklist,
+        date: checklist.date ? checklist.date.toDate() : undefined,
     };
 };
 

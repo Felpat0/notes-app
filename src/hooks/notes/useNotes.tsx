@@ -9,11 +9,9 @@ import {
 } from "../../firebase/notes";
 import { handleAsyncOperation } from "../../UI/utils";
 import i18n from "../../localization/i18n";
-import { useTranslation } from "react-i18next";
 import { RecurrenceModal } from "../../components/Notes/RecurrenceModal";
 
 export const useNotes = () => {
-    const { t } = useTranslation();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
     const [recurrenceModalNote, setRecurrenceModalNote] = useState<
@@ -107,35 +105,32 @@ export const useNotes = () => {
         );
     }, []);
 
-    const getNoteDropdownOptions = useCallback(
-        (note: NoteType) => {
-            let options = [];
-            if (!note.pinned) {
-                options.push({
-                    label: t("dropdownMenus.notes.pin"),
-                    value: "pin",
-                });
-            } else {
-                options.push({
-                    label: t("dropdownMenus.notes.unpin"),
-                    value: "unpin",
-                });
-            }
-            options = [
-                ...options,
-                {
-                    label: t("modals.recurrenceModal.setNoteRecurrence"),
-                    value: "recurrence",
-                },
-                {
-                    label: t("dropdownMenus.notes.delete"),
-                    value: "delete",
-                },
-            ];
-            return options;
-        },
-        [t]
-    );
+    const getNoteDropdownOptions = useCallback((note: NoteType) => {
+        let options = [];
+        if (!note.pinned) {
+            options.push({
+                label: i18n.t("dropdownMenus.notes.pin"),
+                value: "pin",
+            });
+        } else {
+            options.push({
+                label: i18n.t("dropdownMenus.notes.unpin"),
+                value: "unpin",
+            });
+        }
+        options = [
+            ...options,
+            {
+                label: i18n.t("modals.recurrenceModal.setNoteRecurrence"),
+                value: "recurrence",
+            },
+            {
+                label: i18n.t("dropdownMenus.notes.delete"),
+                value: "delete",
+            },
+        ];
+        return options;
+    }, []);
 
     const handleNoteDropdownItemClick = useCallback(
         (value: string, note: NoteType) => {

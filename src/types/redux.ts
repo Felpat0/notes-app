@@ -1,4 +1,5 @@
 import { AlertType } from "../UI/types/theme";
+import { ChecklistType } from "./checklists";
 import { NoteType } from "./notes";
 
 export type UIInitialStateType = {
@@ -8,4 +9,8 @@ export type UIInitialStateType = {
 
 export type NotesInitialStateType = {
     notes: NoteType[];
+};
+
+export type ChecklistsInitialStateType = {
+    checklists: ChecklistType[];
 };

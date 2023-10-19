@@ -31,10 +31,12 @@
         "close": "Close"
     },
     "inputs": {
-        "labels": {
-        },
+        "labels": {},
         "placeholders": {
-            "searchNotes": "Search notes"
+            "searchNotes": "Search notes",
+            "checklists": {
+                "newItemPlaceholder": "Write something and press enter"
+            }
         }
     },
     "alerts": {
@@ -85,6 +87,10 @@
         "notes": {
             "title": "Error",
             "message": "An error has occurred while loading or changing notes"
+        },
+        "checklists": {
+            "title": "Error",
+            "message": "An error has occurred while loading or changing checklists"
         }
     }
 }

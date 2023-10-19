@@ -65,7 +65,7 @@ export const NoteScreen: React.FC<Props> = ({ route }: Props) => {
                     value={currentNote.title}
                     onChangeText={(value) => onChange(value, "title")}
                     placeholder="Title"
-                    variant={"borderless"}
+                    variant={"borderBottom"}
                     style={noteScreenStyles.titleInput}
                 />
                 <DropdownMenu

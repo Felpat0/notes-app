@@ -134,7 +134,7 @@ export const handleAsyncOperation = async <T,>(
         } catch (error: any) {
             setError && setError(error.message);
             setLoading && setLoading(false);
-            console.log(error);
+            console.log("Error in handleAsyncOperation:", error);
             if (options?.error) {
                 store.dispatch(
                     displayAlert({

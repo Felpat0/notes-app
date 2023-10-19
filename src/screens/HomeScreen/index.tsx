@@ -19,10 +19,16 @@ import { useDispatch } from "react-redux";
 import { setNotes } from "../../redux/slices/notesSlice";
 import { firestoreNoteToNote } from "../../utils/conversions";
 import { NoteType, SelectedNoteDataType } from "../../types/notes";
+import { Checklist } from "../../components/Checklists/Checklist";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
 export const HomeScreen: React.FC<Props> = ({ navigation }: Props) => {
+    const [currentDate] = useState<Date>(new Date());
+    const [selectedNoteData, setSelectedNoteData] = useState<
+        SelectedNoteDataType | undefined
+    >();
+
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const { notes } = useAppSelector((state) => state.notes);
@@ -32,11 +38,6 @@ export const HomeScreen: React.FC<Props> = ({ navigation }: Props) => {
         handleNoteDropdownItemClick,
         NotesModals,
     } = useNotes();
-
-    const [currentDate] = useState<Date>(new Date());
-    const [selectedNoteData, setSelectedNoteData] = useState<
-        SelectedNoteDataType | undefined
-    >();
 
     const pinnedNotes = useMemo(() => {
         return notes.filter((note) => isNotePinned(note, currentDate));
@@ -90,6 +91,7 @@ export const HomeScreen: React.FC<Props> = ({ navigation }: Props) => {
         <ScrollView contentContainerStyle={homeScreenStyles.container}>
             {NotesModals}
             <Greeting name={getCurrentUser()?.displayName || ""} />
+            <Checklist date={currentDate} />
             <HomeSection title={t("home.pinnedNotes")}>
                 <ScrollView
                     horizontal={true}
