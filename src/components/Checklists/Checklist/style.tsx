@@ -13,5 +13,6 @@ export const checklistStyles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         gap: 0,
+        marginLeft: "auto",
     },
 });
