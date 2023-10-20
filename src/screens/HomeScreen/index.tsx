@@ -24,7 +24,7 @@ import { Checklist } from "../../components/Checklists/Checklist";
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
 export const HomeScreen: React.FC<Props> = ({ navigation }: Props) => {
-    const [currentDate] = useState<Date>(new Date());
+    const [currentDate, setCurrentDate] = useState<Date>(new Date());
     const [selectedNoteData, setSelectedNoteData] = useState<
         SelectedNoteDataType | undefined
     >();
@@ -87,11 +87,21 @@ export const HomeScreen: React.FC<Props> = ({ navigation }: Props) => {
         [setSelectedNoteData]
     );
 
+    const handleChecklistDateChange = useCallback(
+        (date: Date) => {
+            setCurrentDate(date);
+        },
+        [navigation]
+    );
+
     return (
         <ScrollView contentContainerStyle={homeScreenStyles.container}>
             {NotesModals}
             <Greeting name={getCurrentUser()?.displayName || ""} />
-            <Checklist date={currentDate} />
+            <Checklist
+                date={currentDate}
+                onDateChange={handleChecklistDateChange}
+            />
             <HomeSection title={t("home.pinnedNotes")}>
                 <ScrollView
                     horizontal={true}

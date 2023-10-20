@@ -7,6 +7,9 @@
         "pinnedNotes": "Note in evidenza",
         "notes": "Note"
     },
+    "checklists": {
+        "title": "Checklist"
+    },
     "recurrence": {
         "none": "Nessuna ricorrenza",
         "punctual": "Un giorno",
@@ -63,6 +66,9 @@
         "recurrenceModal": {
             "title": "Ricorrenze nota",
             "setNoteRecurrence": "Imposta ricorrenza nota"
+        },
+        "dateSelectionModal": {
+            "title": "Seleziona una data"
         }
     },
     "dropdownMenus": {

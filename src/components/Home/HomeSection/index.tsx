@@ -21,7 +21,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
     return (
         <View style={homeSectionStyles.container}>
             <View style={homeSectionStyles.titleContainer}>
-                <Text style={homeSectionStyles.title} variant={"title"}>
+                <Text style={homeSectionStyles.title} variant={"subtitle"}>
                     {title}
                 </Text>
                 {icon && (

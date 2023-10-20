@@ -11,7 +11,6 @@ import { Modal } from "./../../UI/components/Modal";
 import { useState } from "react";
 import { DatePicker } from "./../../UI/components/DatePicker";
 import { Calendar } from "./../../UI/components/Calendar";
-import { logout } from "../../firebase";
 
 export default function TestScreen() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,9 +23,6 @@ export default function TestScreen() {
                 {dimensions.width} x {dimensions.height} (
                 {getDeviceType(dimensions.width)})
             </Text>
-            <Button width={"100%"} onPress={logout}>
-                Logout
-            </Button>
             <Input
                 variant={"default"}
                 style={{ marginBottom: 10 }}
@@ -48,7 +44,7 @@ export default function TestScreen() {
             </Button>
             <DatePicker
                 date={selectedDate}
-                onChange={(event, date) => setSelectedDate(date)}
+                onChange={(event, date) => date && setSelectedDate(date)}
             />
             <Calendar
                 selectedDate={selectedDate}

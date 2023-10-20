@@ -4,4 +4,14 @@ export const checklistStyles = StyleSheet.create({
     container: {
         flexDirection: "column",
     },
+    titleContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 10,
+    },
+    titleDateContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 0,
+    },
 });

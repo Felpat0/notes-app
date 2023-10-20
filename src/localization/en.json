@@ -8,6 +8,9 @@
         "notes": "Notes",
         "projects": "Projects"
     },
+    "checklists": {
+        "title": "Checklist"
+    },
     "recurrence": {
         "none": "None",
         "punctual": "One day",
@@ -71,6 +74,9 @@
         "recurrenceModal": {
             "title": "Note Recurrence",
             "setNoteRecurrence": "Set note recurrence"
+        },
+        "dateSelectionModal": {
+            "title": "Select Date"
         }
     },
     "successes": {
