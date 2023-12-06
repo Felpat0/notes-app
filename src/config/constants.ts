@@ -3,4 +3,5 @@ export const constants = {
         headerShown: false,
     },
     notesDebounceDelay: 1000,
+    checklistsDebounceDelay: 1000,
 };

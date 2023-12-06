@@ -4,31 +4,34 @@ import { Input, RichEditor } from "../../UI/components";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/AppStack";
 import { DropdownMenu } from "../../UI/components/DropdownMenu";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { NoteType } from "../../types/notes";
 import { useDebounce } from "../../UI/hooks/useDebounce";
 import { constants } from "../../config/constants";
 import { useNotes } from "../../hooks/notes/useNotes";
+import { useAppSelector } from "../../redux/store";
+import { Checklist } from "../../components/Checklists/Checklist";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Note">;
 
 export const NoteScreen: React.FC<Props> = ({ route }: Props) => {
-    const [note, setNote] = useState<NoteType | undefined>();
+    const { notes } = useAppSelector((state) => state.notes);
     const [currentNote, setCurrentNote] = useState<NoteType | undefined>();
-    const { getSingleNote, updateExistingNote } = useNotes();
+    const {
+        updateExistingNote,
+        getNoteDropdownOptions,
+        handleNoteDropdownItemClick,
+        NotesModals,
+    } = useNotes();
+
+    const note = useMemo(() => {
+        return notes.find((note) => note.id === route.params?.noteId);
+    }, [notes, route.params?.noteId]);
+
     const debouncedNote = useDebounce(
         currentNote,
         constants.notesDebounceDelay
     );
-
-    useEffect(() => {
-        // Get the current note from the backend, if there is a noteId in the route params
-        const retrieveNote = async (noteId: string) => {
-            const retrievedNote = await getSingleNote(noteId);
-            if (retrievedNote) setNote({ ...retrievedNote });
-        };
-        if (route.params?.noteId) retrieveNote(route.params.noteId);
-    }, [route.params?.noteId]);
 
     useEffect(() => {
         // When the note is retrieved from the backend, set it as the current note
@@ -57,26 +60,26 @@ export const NoteScreen: React.FC<Props> = ({ route }: Props) => {
 
     return (
         <View style={noteScreenStyles.container}>
+            {NotesModals}
             <View style={noteScreenStyles.titleContainer}>
                 <Input
                     value={currentNote.title}
                     onChangeText={(value) => onChange(value, "title")}
                     placeholder="Title"
-                    variant={"borderless"}
+                    variant={"borderBottom"}
                     style={noteScreenStyles.titleInput}
                 />
                 <DropdownMenu
-                    options={[
-                        {
-                            label: "Save",
-                            value: "save",
-                        },
-                    ]}
+                    options={getNoteDropdownOptions(currentNote)}
+                    onSelect={(value) =>
+                        handleNoteDropdownItemClick(value, currentNote)
+                    }
                 />
             </View>
+            <Checklist noteId={currentNote.id} />
             <RichEditor
-                initialContentHTML={currentNote.content}
-                onChange={(content: string) => onChange(content, "content")}
+                initialHtml={currentNote.content}
+                onHtmlChange={(content) => onChange(content.html, "content")}
             />
         </View>
     );

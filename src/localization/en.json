@@ -1,0 +1,102 @@
+{
+    "header": {
+        "title": "Notes"
+    },
+    "home": {
+        "greeting": "Hey,",
+        "pinnedNotes": "Pinned Notes",
+        "notes": "Notes",
+        "projects": "Projects"
+    },
+    "checklists": {
+        "title": "Checklist"
+    },
+    "recurrence": {
+        "none": "None",
+        "punctual": "One day",
+        "punctualRecurrenceDate": "Recurrence date",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly",
+        "yearly": "Yearly",
+        "never": "Never",
+        "ends": "Ends",
+        "on": "On"
+    },
+    "buttons": {
+        "ok": "Ok",
+        "cancel": "Cancel",
+        "done": "Done",
+        "retry": "Retry",
+        "save": "Save",
+        "delete": "Delete",
+        "confirm": "Confirm",
+        "close": "Close"
+    },
+    "inputs": {
+        "labels": {},
+        "placeholders": {
+            "searchNotes": "Search notes",
+            "checklists": {
+                "newItemPlaceholder": "Write something and press enter"
+            }
+        }
+    },
+    "alerts": {
+        "deleteNote": {
+            "title": "Delete Note",
+            "message": "Are you sure you want to delete this note?"
+        }
+    },
+    "ui": {
+        "buttons": {
+            "ok": "Ok",
+            "cancel": "Cancel",
+            "done": "Done",
+            "retry": "Retry",
+            "save": "Save",
+            "delete": "Delete",
+            "confirm": "Confirm",
+            "close": "Close"
+        },
+        "alerts": {
+            "confirmOperation": "Are you sure you want to perform this operation?"
+        }
+    },
+    "dropdownMenus": {
+        "notes": {
+            "pin": "Pin",
+            "unpin": "Unpin",
+            "delete": "Delete"
+        }
+    },
+    "modals": {
+        "recurrenceModal": {
+            "title": "Note Recurrence",
+            "setNoteRecurrence": "Set note recurrence"
+        },
+        "dateSelectionModal": {
+            "title": "Select Date"
+        }
+    },
+    "successes": {
+        "general": {
+            "title": "Success",
+            "message": "Operation completed successfully"
+        }
+    },
+    "errors": {
+        "general": {
+            "title": "Error",
+            "message": "An error has occurred"
+        },
+        "notes": {
+            "title": "Error",
+            "message": "An error has occurred while loading or changing notes"
+        },
+        "checklists": {
+            "title": "Error",
+            "message": "An error has occurred while loading or changing checklists"
+        }
+    }
+}

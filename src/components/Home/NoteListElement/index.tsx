@@ -1,42 +1,34 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { noteListElementStyles } from "./style";
 import { DropdownMenu } from "../../../UI/components/DropdownMenu";
+import { useNotes } from "../../../hooks/notes/useNotes";
+import { NoteType } from "../../../types/notes";
 
 interface NoteListElementProps {
-    id: string;
-    title: string;
+    note: NoteType;
     subtitle?: string;
     onClick?: (id: string) => void;
     onDelete?: (id: string) => void;
 }
 
 export const NoteListElement = ({
-    id,
-    title,
+    note,
     subtitle,
     onClick,
-    onDelete,
 }: NoteListElementProps) => {
-    const handleDropdownMenuSelect = useCallback(
-        async (value: string) => {
-            switch (value) {
-                case "delete":
-                    onDelete && onDelete(id);
-                    break;
-                default:
-                    break;
-            }
-        },
-        [onDelete]
-    );
+    const { getNoteDropdownOptions, handleNoteDropdownItemClick, NotesModals } =
+        useNotes();
 
     return (
-        <TouchableOpacity onPress={() => onClick && onClick(id)}>
+        <TouchableOpacity onPress={() => onClick && onClick(note.id)}>
+            {NotesModals}
             <View style={noteListElementStyles.rectangle}>
                 <View>
                     <View style={noteListElementStyles.titleContainer}>
-                        <Text style={noteListElementStyles.title}>{title}</Text>
+                        <Text style={noteListElementStyles.title}>
+                            {note.title}
+                        </Text>
                     </View>
                     {subtitle && (
                         <Text style={noteListElementStyles.subtitle}>
@@ -46,14 +38,11 @@ export const NoteListElement = ({
                 </View>
 
                 <DropdownMenu
-                    options={[
-                        {
-                            label: "Delete",
-                            value: "delete",
-                        },
-                    ]}
+                    options={getNoteDropdownOptions(note)}
                     position={"left"}
-                    onSelect={handleDropdownMenuSelect}
+                    onSelect={(value) =>
+                        handleNoteDropdownItemClick(value, note)
+                    }
                 />
             </View>
         </TouchableOpacity>

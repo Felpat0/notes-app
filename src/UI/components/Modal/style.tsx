@@ -2,7 +2,6 @@ import { StyleSheet } from "react-native";
 import { constants } from "../../config/constants";
 import { ModalSize, ModalVariant } from "../../types/theme";
 import { getDeviceType, getModalColors, getModalSize } from "../../utils";
-import { colors } from "../../theme/colors";
 
 export const getModalStyle = (
     deviceWidth: number,
@@ -16,14 +15,15 @@ export const getModalStyle = (
             alignItems: "center",
             backgroundColor: "rgba(0,0,0,0.5)",
         },
+        title: { marginBottom: 10 },
         content: {
             borderRadius:
-                constants[getDeviceType(deviceWidth)].style.borderRadius,
+                constants[getDeviceType(deviceWidth) as keyof typeof constants] // @ts-ignore
+                    .style.borderRadius,
             width: getModalSize(size, deviceWidth).width,
             height: getModalSize(size, deviceWidth).height,
             backgroundColor: getModalColors(variant).backgroundColor,
             color: getModalColors(variant).color,
             padding: 10,
         },
-        title: {},
     });

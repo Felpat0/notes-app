@@ -51,15 +51,15 @@ export const themeColors = {
         secondary: {
             idle: {
                 color: colors.white1,
-                backgroundColor: colors.blue3,
+                backgroundColor: colors.purple2,
             },
             hover: {
                 color: colors.white1,
-                backgroundColor: colors.blue4,
+                backgroundColor: colors.purple2,
             },
             disabled: {
                 color: colors.white1,
-                backgroundColor: colors.blue2,
+                backgroundColor: colors.purple4,
             },
         },
         tertiary: {
@@ -76,6 +76,23 @@ export const themeColors = {
                 backgroundColor: colors.blue2,
             },
         },
+        borderless: {
+            idle: {
+                color: colors.white1,
+                backgroundColor: colors.transparent,
+                borderColor: colors.blue3,
+            },
+            hover: {
+                color: colors.white1,
+                backgroundColor: colors.transparent,
+                borderColor: colors.blue4,
+            },
+            disabled: {
+                color: colors.white1,
+                backgroundColor: colors.transparent,
+                borderColor: colors.blue2,
+            },
+        },
     },
     input: {
         default: {
@@ -85,7 +102,7 @@ export const themeColors = {
                 placeholderColor: colors.purple3,
                 borderColor: colors.transparent,
             },
-            hover: {
+            focused: {
                 color: colors.blue1,
                 backgroundColor: colors.purple1,
                 placeholderColor: colors.purple3,
@@ -98,14 +115,14 @@ export const themeColors = {
                 borderColor: colors.transparent,
             },
         },
-        borderless: {
+        borderBottom: {
             idle: {
                 color: colors.white1,
                 backgroundColor: colors.transparent,
                 placeholderColor: colors.purple1,
                 borderColor: colors.purple2,
             },
-            hover: {
+            focused: {
                 color: colors.white1,
                 backgroundColor: colors.transparent,
                 placeholderColor: colors.purple1,
@@ -116,6 +133,26 @@ export const themeColors = {
                 backgroundColor: colors.transparent,
                 placeholderColor: colors.purple1,
                 borderColor: colors.purple2,
+            },
+        },
+        borderless: {
+            idle: {
+                color: colors.white1,
+                backgroundColor: colors.transparent,
+                placeholderColor: colors.purple1,
+                borderColor: colors.transparent,
+            },
+            focused: {
+                color: colors.white1,
+                backgroundColor: colors.transparent,
+                placeholderColor: colors.purple1,
+                borderColor: colors.purple2,
+            },
+            disabled: {
+                color: colors.white2,
+                backgroundColor: colors.transparent,
+                placeholderColor: colors.purple1,
+                borderColor: colors.transparent,
             },
         },
     },
@@ -153,7 +190,7 @@ export const themeColors = {
             todayTextColor: colors.purple2,
             dayTextColor: colors.white1,
             textDisabledColor: colors.purple3,
-            textDayFontWeight: "600" as "600",
+            textDayFontWeight: "600",
             dotColor: colors.skyblue1,
         },
     },

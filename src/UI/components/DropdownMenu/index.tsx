@@ -1,4 +1,11 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, {
+    useCallback,
+    useEffect,
+    useLayoutEffect,
+    useMemo,
+    useRef,
+    useState,
+} from "react";
 import {
     Modal,
     Text,
@@ -12,14 +19,21 @@ import { StyleSheet } from "react-native";
 import { colors } from "../../../UI/theme/colors";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-interface DropdownMenuProps {
+type DropdownMenuProps = {
     children?: React.ReactNode;
     options: DropdownOption[];
     onSelect?: (value: DropdownOption["value"]) => void;
+    onClose?: () => void;
     position?: "left" | "right";
-}
+    forceOptionsOpen?: boolean;
+    coordinates?: {
+        x: number;
+        y: number;
+    };
+    hideTrigger?: boolean;
+};
 
-export const DropdownMenu = ({
+export const DropdownMenu: React.FC<DropdownMenuProps> = ({
     children = (
         <Ionicons
             name={"ellipsis-vertical-sharp"}
@@ -29,24 +43,62 @@ export const DropdownMenu = ({
     ),
     options,
     onSelect,
+    onClose,
     position = "left",
+    forceOptionsOpen,
+    coordinates,
+    hideTrigger,
 }: DropdownMenuProps) => {
     const [showOptions, setShowOptions] = useState(false);
     const [measure, setMeasure] = useState<Measure | undefined>();
     const dimensions = useWindowDimensions();
     const triggerRef = useRef<TouchableOpacity | null>(null);
 
-    const styles = useMemo(
-        () => getDropdownMenuStyles(position, dimensions.width, measure),
-        [position, dimensions, measure]
-    );
+    const updatedPosition: "left" | "right" = useMemo(() => {
+        if (coordinates) {
+            return coordinates.x > dimensions.width / 2 ? "left" : "right";
+        }
+        return position;
+    }, [coordinates]);
+
+    const styles = useMemo(() => {
+        const newMeasure = measure;
+        if (coordinates && newMeasure) {
+            newMeasure.pageX = coordinates.x;
+            newMeasure.pageY = coordinates.y;
+            newMeasure.width = 0;
+            newMeasure.height = 0;
+        }
+        return getDropdownMenuStyles(
+            updatedPosition,
+            dimensions.width,
+            newMeasure
+        );
+    }, [dimensions, measure, coordinates, updatedPosition]);
+
+    useEffect(() => {
+        if (forceOptionsOpen !== undefined) {
+            setShowOptions(forceOptionsOpen);
+        }
+    }, [forceOptionsOpen]);
+
+    useLayoutEffect(() => {
+        triggerRef.current?.measure((x, y, width, height, pageX, pageY) => {
+            setMeasure({ x, y, width, height, pageX, pageY });
+        });
+    }, [showOptions]);
+
+    const handleClose = useCallback(() => {
+        setShowOptions(false);
+        onClose && onClose();
+    }, [onClose]);
 
     const handleSelectOption = useCallback(
         (option: string) => {
-            setShowOptions(false);
+            handleClose();
             onSelect && onSelect(option);
         },
-        [onSelect]
+        [onSelect, handleClose]
     );
 
     return (
@@ -54,24 +106,17 @@ export const DropdownMenu = ({
             <TouchableOpacity
                 ref={triggerRef}
                 onPress={() => setShowOptions(!showOptions)}
-                onLayout={() => {
-                    triggerRef.current?.measure(
-                        (x, y, width, height, pageX, pageY) => {
-                            setMeasure({ x, y, width, height, pageX, pageY });
-                        }
-                    );
-                }}
             >
-                {children}
+                {!hideTrigger && children}
             </TouchableOpacity>
             <Modal
                 visible={showOptions}
                 transparent={true}
-                onRequestClose={() => setShowOptions(false)}
+                onRequestClose={handleClose}
             >
                 <TouchableOpacity
                     style={StyleSheet.absoluteFill}
-                    onPress={() => setShowOptions(false)}
+                    onPress={handleClose}
                 />
                 <View style={styles.options}>
                     {options.map((option) => (

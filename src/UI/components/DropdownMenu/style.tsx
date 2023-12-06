@@ -20,10 +20,7 @@ export const getDropdownMenuStyles = (
                       (measure?.pageX || 0) -
                       (measure?.width || 0)
                     : undefined,
-            left:
-                position === "right"
-                    ? deviceWidth - (measure?.pageX || 0)
-                    : undefined,
+            left: position === "right" ? measure?.pageX : undefined,
             backgroundColor: "#1a1a1a",
             borderRadius:
                 constants[getDeviceType(deviceWidth) as keyof typeof constants] //@ts-ignore

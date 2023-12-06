@@ -1,24 +1,26 @@
-import { ModalProps } from "react-native/types";
+import { ModalProps as RNModalProps } from "react-native/types";
 import { Modal as RNModal, useWindowDimensions, View } from "react-native";
 import { ModalSize, ModalVariant } from "../../types/theme";
 import { getModalStyle } from "./style";
 import { useMemo } from "react";
-import { Text } from "../Text";
+import { Text, TextProps } from "../Text";
 
-type Props = ModalProps & {
+export type ModalProps = RNModalProps & {
     title?: string;
     variant?: ModalVariant;
     size?: ModalSize;
     transparent?: boolean;
+    titleProps?: TextProps;
 };
 
-export const Modal: React.FC<Props> = ({
+export const Modal: React.FC<ModalProps> = ({
     title,
     variant,
     size,
     transparent = true,
+    titleProps,
     ...props
-}: Props) => {
+}: ModalProps) => {
     const dimensions = useWindowDimensions();
     const stylesheet = useMemo(
         () => getModalStyle(dimensions.width, variant, size),
@@ -29,9 +31,16 @@ export const Modal: React.FC<Props> = ({
         <RNModal transparent={transparent} {...props}>
             <View style={stylesheet.container}>
                 <View style={stylesheet.content}>
-                    <Text variant={"subtitle"} colorVariant={"primary"}>
-                        {title}
-                    </Text>
+                    {title && (
+                        <Text
+                            variant={"subtitle"}
+                            colorVariant={"primary"}
+                            {...titleProps}
+                            style={[stylesheet.title, titleProps?.style]}
+                        >
+                            {title}
+                        </Text>
+                    )}
                     {props.children}
                 </View>
             </View>

@@ -11,10 +11,11 @@ export const getInputStyle = (
     StyleSheet.create({
         input: {
             borderRadius:
-                variant === "borderless"
+                variant === "borderBottom" || variant === "borderless"
                     ? 0
                     : constants[getDeviceType(deviceWidth)].style.borderRadius,
-            borderBottomWidth: variant === "borderless" ? 2 : 0,
+            borderBottomWidth:
+                variant === "borderBottom" || variant === "borderless" ? 2 : 0,
             padding: 10,
             backgroundColor: getInputColors(variant, state).backgroundColor,
             fontSize:

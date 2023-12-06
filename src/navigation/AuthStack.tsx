@@ -13,13 +13,21 @@ export type AuthStackParamList = {
 const Stack = createStackNavigator<AuthStackParamList>();
 
 export const AuthStack = (
-    <Stack.Navigator initialRouteName={"Login"}>
+    <Stack.Navigator
+        initialRouteName={"Login"}
+        screenOptions={{
+            presentation: "modal",
+        }}
+    >
         <Stack.Screen
             name="Login"
             options={constants.defaultStackScreenOptions}
         >
             {(props) => (
-                <ScrollView style={styles.screenContainer}>
+                <ScrollView
+                    style={styles.screenContainer}
+                    keyboardShouldPersistTaps={"handled"}
+                >
                     <LoginScreen {...props} />
                 </ScrollView>
             )}
@@ -29,7 +37,10 @@ export const AuthStack = (
             options={constants.defaultStackScreenOptions}
         >
             {(props) => (
-                <ScrollView style={styles.screenContainer}>
+                <ScrollView
+                    style={styles.screenContainer}
+                    keyboardShouldPersistTaps={"handled"}
+                >
                     <SignupScreen {...props} />
                 </ScrollView>
             )}

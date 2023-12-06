@@ -1,37 +1,32 @@
-import {
-    RichEditor as RNRichEditor,
-    RichEditorProps,
-    RichToolbar,
-} from "react-native-pell-rich-editor";
 import { View } from "react-native";
 import { richEditorStyle } from "./style";
 import React from "react";
 import { themeColors } from "../../theme/colors";
 import { constants } from "../../config/constants";
+import QuillEditor, { QuillToolbar } from "react-native-cn-quill";
 
-type Props = typeof RichEditorProps;
+type Props = QuillEditor["props"];
 
 export const RichEditor: React.FC<Props> = (props) => {
     const richText =
-        React.createRef<typeof RNRichEditor>() ||
-        React.useRef<typeof RNRichEditor>();
+        React.createRef<QuillEditor>() || React.useRef<QuillEditor>();
 
     return (
         <View style={richEditorStyle.container}>
-            <RNRichEditor
+            <QuillEditor
                 ref={richText}
                 style={richEditorStyle.editor}
-                editorStyle={{
-                    backgroundColor: themeColors.background.primary,
+                theme={{
+                    background: themeColors.background.primary,
                     color: themeColors.text.paragraph.primary,
+                    placeholder: themeColors.text.paragraph.secondary,
                 }}
-                androidLayerType={"software"}
                 {...props}
             />
-            <RichToolbar
+            <QuillToolbar
                 editor={richText}
-                style={richEditorStyle.toolbar}
-                actions={constants.richEditorToolbarActions}
+                options={constants.richEditorToolbarActions}
+                theme={"dark"}
             />
         </View>
     );

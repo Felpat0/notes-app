@@ -16,6 +16,8 @@ export const buttonStyle = (
                 constants[getDeviceType(deviceWidth)].style.borderRadius,
             padding: 10,
             backgroundColor: getButtonColors(variant, state).backgroundColor,
+            borderColor: getButtonColors(variant, state).borderColor,
+            borderWidth: 1,
         },
         text: {
             fontSize:

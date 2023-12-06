@@ -1,0 +1,101 @@
+{
+    "header": {
+        "title": "Note"
+    },
+    "home": {
+        "greeting": "Hey,",
+        "pinnedNotes": "Note in evidenza",
+        "notes": "Note"
+    },
+    "checklists": {
+        "title": "Checklist"
+    },
+    "recurrence": {
+        "none": "Nessuna ricorrenza",
+        "punctual": "Un giorno",
+        "punctualRecurrenceDate": "Data ricorrenza",
+        "daily": "Ogni giorno",
+        "weekly": "Ogni settimana",
+        "monthly": "Ogni mese",
+        "yearly": "Ogni anno",
+        "never": "Mai",
+        "ends": "Finisce",
+        "on": "Il"
+    },
+    "buttons": {
+        "ok": "Ok",
+        "cancel": "Annulla",
+        "done": "Fatto",
+        "retry": "Riprova",
+        "save": "Salva",
+        "delete": "Elimina",
+        "confirm": "Conferma",
+        "close": "Chiudi"
+    },
+    "inputs": {
+        "labels": {},
+        "placeholders": {
+            "searchNotes": "Cerca note",
+            "checklists": {
+                "newItemPlaceholder": "Scrivi qualcosa e premi invio"
+            }
+        }
+    },
+    "alerts": {
+        "deleteNote": {
+            "title": "Elimina nota",
+            "message": "Sei sicuro di voler eliminare questa nota?"
+        }
+    },
+    "ui": {
+        "buttons": {
+            "ok": "Ok",
+            "cancel": "Annulla",
+            "done": "Fatto",
+            "retry": "Riprova",
+            "save": "Salva",
+            "delete": "Elimina",
+            "confirm": "Conferma",
+            "close": "Chiudi"
+        },
+        "alerts": {
+            "confirmOperation": "Sei sicuro di voler eseguire questa operazione?"
+        }
+    },
+    "modals": {
+        "recurrenceModal": {
+            "title": "Ricorrenze nota",
+            "setNoteRecurrence": "Imposta ricorrenza nota"
+        },
+        "dateSelectionModal": {
+            "title": "Seleziona una data"
+        }
+    },
+    "dropdownMenus": {
+        "notes": {
+            "pin": "Metti in evidenza",
+            "unpin": "Rimuovi dall'evidenza",
+            "delete": "Elimina"
+        }
+    },
+    "successes": {
+        "general": {
+            "title": "Successo",
+            "message": "Operazione eseguita con successo"
+        }
+    },
+    "errors": {
+        "general": {
+            "title": "Errore",
+            "message": "Si è verificato un errore"
+        },
+        "notes": {
+            "title": "Errore",
+            "message": "Si è verificato un errore durante il caricamento o la modifica delle note"
+        },
+        "checklists": {
+            "title": "Errore",
+            "message": "Si è verificato un errore durante il caricamento o la modifica delle checklist"
+        }
+    }
+}
